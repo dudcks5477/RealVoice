@@ -1,12 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import SplashScreen from './src/components/SplashScreen';
 
 const App = () => {
-  return (
-    <View>
-      <Text>Hello, World</Text>
-    </View>
-  );
+  return <SplashScreen />;
 };
 
 export default App;
