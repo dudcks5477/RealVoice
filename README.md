@@ -13,7 +13,9 @@
 - [Backend Repository](https://github.com/kangwhon/RealVoice)
 
 ## Develop
-<img src="./img/RealVoice_Main_Logo.png" alt="Logo" width="100">
-<img src="./img/First_Page.png" alt="First page" width="100">
-<img src="./img/Upload_Voice.png" alt="Upload Voice" width="100">
-<img src="./img/Uploaded_Voice.png" alt="Uploaded Voice" width="100">
+<div style="display: flex: flex-direction: row;">
+  <img src="./img/RealVoice_Main_Logo.png" alt="Logo" width="100">
+  <img src="./img/First_Page.png" alt="First page" width="100">
+  <img src="./img/Upload_Voice.png" alt="Upload Voice" width="100">
+  <img src="./img/Uploaded_Voice.png" alt="Uploaded Voice" width="100">
+</div>
