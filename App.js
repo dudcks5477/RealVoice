@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import SplashScreen from './src/components/SplashScreen';
 import SignUpPhoneNumberScreen from './src/screens/SignUpPhoneNumberScreen';
+import PhoneVerificationScreen from './src/screens/PhoneVerificationScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,10 @@ const App = () => {
         <Stack.Screen
           name="SignUpPhoneNumber"
           component={SignUpPhoneNumberScreen}
+        />
+        <Stack.Screen
+          name="PhoneVerificationScreen"
+          component={PhoneVerificationScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
