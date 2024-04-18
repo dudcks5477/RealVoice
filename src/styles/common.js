@@ -21,6 +21,10 @@ const Common = StyleSheet.create({
     color: '#6178F1',
     textDecorationLine: 'underline',
   },
+  assignColor: {
+    color: '#6178F1',
+    textAlign: 'center',
+  },
   nextBtn: {
     backgroundColor: '#fff',
     width: 160,
