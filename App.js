@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './src/components/SplashScreen';
 import SignUpPhoneNumberScreen from './src/screens/SignUpPhoneNumberScreen';
 import PhoneVerificationScreen from './src/screens/PhoneVerificationScreen';
+import MicroPhonePermissionScreen from './src/screens/MicroPhonePermissionScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,8 +22,12 @@ const App = () => {
           component={SignUpPhoneNumberScreen}
         />
         <Stack.Screen
-          name="PhoneVerificationScreen"
+          name="PhoneVerification"
           component={PhoneVerificationScreen}
+        />
+        <Stack.Screen
+          name="MicroPhonePermission"
+          component={MicroPhonePermissionScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
