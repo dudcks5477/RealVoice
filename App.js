@@ -6,6 +6,7 @@ import SplashScreen from './src/components/SplashScreen';
 import SignUpPhoneNumberScreen from './src/screens/SignUpPhoneNumberScreen';
 import PhoneVerificationScreen from './src/screens/PhoneVerificationScreen';
 import MicroPhonePermissionScreen from './src/screens/MicroPhonePermissionScreen';
+import NickNameScreen from './src/screens/NickNameScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ const App = () => {
           name="MicroPhonePermission"
           component={MicroPhonePermissionScreen}
         />
+        <Stack.Screen name="NickName" component={NickNameScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
