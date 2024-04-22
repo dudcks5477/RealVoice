@@ -12,6 +12,10 @@ const Common = StyleSheet.create({
     fontSize: 18,
     marginTop: 27,
   },
+  text: {
+    color: '#fff',
+    textAlign: 'center',
+  },
   content: {
     flex: 1,
     justifyContent: 'center',
