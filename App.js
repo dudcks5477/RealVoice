@@ -9,6 +9,8 @@ import MicroPhonePermissionScreen from './src/screens/MicroPhonePermissionScreen
 import NickNameScreen from './src/screens/NickNameScreen';
 import VoicePermissionScreen from './src/screens/VoicePermissionScreen';
 
+import MainScreen from './src/screens/MainScreen';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -18,7 +20,7 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
+        {/* <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen
           name="SignUpPhoneNumber"
           component={SignUpPhoneNumberScreen}
@@ -31,11 +33,12 @@ const App = () => {
           name="MicroPhonePermission"
           component={MicroPhonePermissionScreen}
         />
-        <Stack.Screen name="NickName" component={NickNameScreen} />
-        <Stack.Screen
+        <Stack.Screen name="NickName" component={NickNameScreen} /> */}
+        {/* <Stack.Screen
           name="VoicePermission"
           component={VoicePermissionScreen}
-        />
+        /> */}
+        <Stack.Screen name="Main" component={MainScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
