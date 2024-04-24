@@ -8,6 +8,8 @@ import PhoneVerificationScreen from './src/screens/PhoneVerificationScreen';
 import MicroPhonePermissionScreen from './src/screens/MicroPhonePermissionScreen';
 import NickNameScreen from './src/screens/NickNameScreen';
 import VoicePermissionScreen from './src/screens/VoicePermissionScreen';
+import AddFriendsScreen from './src/screens/AddFriendsScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 
 import MainScreen from './src/screens/MainScreen';
 
@@ -39,6 +41,8 @@ const App = () => {
           component={VoicePermissionScreen}
         /> */}
         <Stack.Screen name="Main" component={MainScreen} />
+        <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
