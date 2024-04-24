@@ -4,6 +4,8 @@ const Common = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    // borderWidth: 1,
+    // borderColor: '#fff',
   },
   headerText: {
     fontWeight: 'bold',
