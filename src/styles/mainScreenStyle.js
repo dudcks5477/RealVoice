@@ -21,6 +21,7 @@ const mainScreenStyle = StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 10,
+    flexDirection: 'row',
   },
   button: {
     color: '#fff',
