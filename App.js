@@ -12,6 +12,9 @@ import AddFriendsScreen from './src/screens/AddFriendsScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 
 import MainScreen from './src/screens/MainScreen';
+import AddMoreFriendsScreen from './src/screens/AddMoreFriendsScreen';
+import FriendsScreen from './src/screens/FrinedsScreen';
+import RequiredScreen from './src/screens/RequiredScreen';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +46,9 @@ const App = () => {
         <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="AddMoreFriends" component={AddMoreFriendsScreen} />
+        <Stack.Screen name="Friends" component={FriendsScreen} />
+        <Stack.Screen name="Required" component={RequiredScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
