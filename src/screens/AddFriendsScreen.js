@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import Common from '../styles/common';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,6 +14,10 @@ const AddFriendsScreen = () => {
 
   const Main = () => {
     navigation.navigate('Main');
+  };
+
+  const handleUserProfile = () => {
+    navigation.navigate('UserProfile');
   };
 
   const handleAddMoreFriends = () => {
@@ -74,9 +78,11 @@ const AddFriendsScreen = () => {
         </View>
         <View style={addFriendsScreenStyle.addFriendContainer}>
           <View style={mainScreenStyle.buttonContainer}>
-            <View style={addFriendsScreenStyle.circle}>
+            <TouchableOpacity
+              style={addFriendsScreenStyle.circle}
+              onPress={handleUserProfile}>
               <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-            </View>
+            </TouchableOpacity>
             <View style={addFriendsScreenStyle.nickNameContainer}>
               <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
               <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
@@ -93,9 +99,11 @@ const AddFriendsScreen = () => {
         </View>
         <View style={addFriendsScreenStyle.addFriendContainer}>
           <View style={mainScreenStyle.buttonContainer}>
-            <View style={addFriendsScreenStyle.circle}>
+            <TouchableOpacity
+              style={addFriendsScreenStyle.circle}
+              onPress={handleUserProfile}>
               <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-            </View>
+            </TouchableOpacity>
             <View style={addFriendsScreenStyle.nickNameContainer}>
               <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
               <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
@@ -112,9 +120,11 @@ const AddFriendsScreen = () => {
         </View>
         <View style={addFriendsScreenStyle.addFriendContainer}>
           <View style={mainScreenStyle.buttonContainer}>
-            <View style={addFriendsScreenStyle.circle}>
+            <TouchableOpacity
+              style={addFriendsScreenStyle.circle}
+              onPress={handleUserProfile}>
               <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-            </View>
+            </TouchableOpacity>
             <View style={addFriendsScreenStyle.nickNameContainer}>
               <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
               <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
@@ -131,9 +141,11 @@ const AddFriendsScreen = () => {
         </View>
         <View style={addFriendsScreenStyle.addFriendContainer}>
           <View style={mainScreenStyle.buttonContainer}>
-            <View style={addFriendsScreenStyle.circle}>
+            <TouchableOpacity
+              style={addFriendsScreenStyle.circle}
+              onPress={handleUserProfile}>
               <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-            </View>
+            </TouchableOpacity>
             <View style={addFriendsScreenStyle.nickNameContainer}>
               <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
               <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
@@ -150,9 +162,11 @@ const AddFriendsScreen = () => {
         </View>
         <View style={addFriendsScreenStyle.addFriendContainer}>
           <View style={mainScreenStyle.buttonContainer}>
-            <View style={addFriendsScreenStyle.circle}>
+            <TouchableOpacity
+              style={addFriendsScreenStyle.circle}
+              onPress={handleUserProfile}>
               <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-            </View>
+            </TouchableOpacity>
             <View style={addFriendsScreenStyle.nickNameContainer}>
               <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
               <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
