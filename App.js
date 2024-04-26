@@ -13,6 +13,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 
 import MainScreen from './src/screens/MainScreen';
 import AddMoreFriendsScreen from './src/screens/AddMoreFriendsScreen';
+import UserProfileScreen from './src/screens/UserProfileScreen';
 import FriendsScreen from './src/screens/FrinedsScreen';
 import RequiredScreen from './src/screens/RequiredScreen';
 
@@ -38,8 +39,8 @@ const App = () => {
           name="MicroPhonePermission"
           component={MicroPhonePermissionScreen}
         />
-        <Stack.Screen name="NickName" component={NickNameScreen} /> */}
-        {/* <Stack.Screen
+        <Stack.Screen name="NickName" component={NickNameScreen} />
+        <Stack.Screen
           name="VoicePermission"
           component={VoicePermissionScreen}
         /> */}
@@ -47,6 +48,7 @@ const App = () => {
         <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="AddMoreFriends" component={AddMoreFriendsScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
         <Stack.Screen name="Friends" component={FriendsScreen} />
         <Stack.Screen name="Required" component={RequiredScreen} />
       </Stack.Navigator>
