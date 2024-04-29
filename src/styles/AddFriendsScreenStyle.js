@@ -1,8 +1,13 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 const addFriendsScreenStyle = StyleSheet.create({
   header: {
-    marginTop: 37,
+    marginTop: 30,
+    zIndex: 1,
+    width: '100%',
+    position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -26,6 +31,7 @@ const addFriendsScreenStyle = StyleSheet.create({
   search: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 60,
   },
   searchContainer: {
     width: 370,
@@ -44,6 +50,11 @@ const addFriendsScreenStyle = StyleSheet.create({
   searchInput: {
     color: '#fff',
     fontSize: 13,
+  },
+  contact: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 75,
   },
   share: {
     justifyContent: 'center',
@@ -121,6 +132,7 @@ const addFriendsScreenStyle = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
     width: 40,
+    height: 32,
   },
   addText: {
     color: '#000',
@@ -142,6 +154,8 @@ const addFriendsScreenStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
+    position: 'absolute',
+    bottom: -60,
   },
   invitedFriend: {
     backgroundColor: '#d9d9d9',
@@ -149,19 +163,21 @@ const addFriendsScreenStyle = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
     width: 40,
-    height: 30,
+    height: 32,
     marginRight: 20,
   },
   selectFooter: {
-    marginTop: 20,
-    width: 146,
-    height: 40,
+    width: 160,
+    height: 45,
     padding: 8,
     borderRadius: 15,
+    bottom: 10,
+    left: (windowWidth - 160) / 2,
     backgroundColor: '#606060',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    position: 'absolute',
   },
   textRecommandContainer: {
     width: 39,
