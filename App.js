@@ -14,7 +14,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import MainScreen from './src/screens/MainScreen';
 import AddMoreFriendsScreen from './src/screens/AddMoreFriendsScreen';
 import UserProfileScreen from './src/screens/UserProfileScreen';
-import FriendsScreen from './src/screens/FrinedsScreen';
+import FriendsScreen from './src/screens/FriendsScreen';
 import RequiredScreen from './src/screens/RequiredScreen';
 
 const Stack = createStackNavigator();
