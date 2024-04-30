@@ -14,7 +14,7 @@ import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
 
-const AddFriendsScreen = () => {
+const RequiredScreen = () => {
   const navigation = useNavigation();
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
@@ -23,11 +23,7 @@ const AddFriendsScreen = () => {
     navigation.navigate('Main');
   };
 
-  const handleUserProfile = () => {
-    navigation.navigate('UserProfile');
-  };
-
-  const handelAddFriends = () => {
+  const handleAddFriends = () => {
     navigation.navigate('AddFriends');
   };
 
@@ -37,6 +33,10 @@ const AddFriendsScreen = () => {
 
   const handleRequired = () => {
     navigation.navigate('Required');
+  };
+
+  const handleSendRequestFriend = () => {
+    navigation.navigate('SendRequestFriend');
   };
 
   return (
@@ -84,7 +84,7 @@ const AddFriendsScreen = () => {
           <View style={requiredScreenStyle.recommandContainer}>
             <Text style={addFriendsScreenStyle.recommandText}>친구 요청</Text>
             <Text style={requiredScreenStyle.space} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSendRequestFriend}>
               <Text style={addFriendsScreenStyle.recommandText}>보냄 &gt;</Text>
             </TouchableOpacity>
           </View>
@@ -106,7 +106,7 @@ const AddFriendsScreen = () => {
         <View style={addFriendsScreenStyle.selectFooter}>
           <TouchableOpacity
             style={addFriendsScreenStyle.textMore}
-            onPress={handelAddFriends}>
+            onPress={handleAddFriends}>
             <Text style={addFriendsScreenStyle.footerText}>추천</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -125,4 +125,4 @@ const AddFriendsScreen = () => {
   );
 };
 
-export default AddFriendsScreen;
+export default RequiredScreen;
