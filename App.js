@@ -16,6 +16,8 @@ import AddMoreFriendsScreen from './src/screens/AddMoreFriendsScreen';
 import UserProfileScreen from './src/screens/UserProfileScreen';
 import FriendsScreen from './src/screens/FriendsScreen';
 import RequiredScreen from './src/screens/RequiredScreen';
+import RequiredFriendScreen from './src/screens/RequiredFreindScreen';
+import SendRequestFriendScreen from './src/screens/SendRequestFriendScreen';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +53,11 @@ const App = () => {
         <Stack.Screen name="UserProfile" component={UserProfileScreen} />
         <Stack.Screen name="Friends" component={FriendsScreen} />
         <Stack.Screen name="Required" component={RequiredScreen} />
+        {/* <Stack.Screen name="RequiredFriend" component={RequiredFriendScreen} /> */}
+        <Stack.Screen
+          name="SendRequestFriend"
+          component={SendRequestFriendScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
