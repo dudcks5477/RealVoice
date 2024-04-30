@@ -16,7 +16,7 @@ import AddMoreFriendsScreen from './src/screens/AddMoreFriendsScreen';
 import UserProfileScreen from './src/screens/UserProfileScreen';
 import FriendsScreen from './src/screens/FriendsScreen';
 import RequiredScreen from './src/screens/RequiredScreen';
-import RequiredFriendScreen from './src/screens/RequiredFreindScreen';
+import RequiredFriendScreen from './src/screens/RequiredFriendScreen.js';
 import SendRequestFriendScreen from './src/screens/SendRequestFriendScreen';
 
 const Stack = createStackNavigator();
