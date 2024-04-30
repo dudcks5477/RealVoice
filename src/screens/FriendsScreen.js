@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 
-const AddFriendsScreen = () => {
+const FriendsScreen = () => {
   const navigation = useNavigation();
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
@@ -82,7 +82,7 @@ const AddFriendsScreen = () => {
         <View style={addFriendsScreenStyle.recommand}>
           <View style={addFriendsScreenStyle.recommandContainer}>
             <Text style={addFriendsScreenStyle.recommandText}>
-              내 친구들 (5)
+              내 친구들 (10)
             </Text>
           </View>
           <View style={addFriendsScreenStyle.addFriendContainer}>
@@ -290,4 +290,4 @@ const AddFriendsScreen = () => {
   );
 };
 
-export default AddFriendsScreen;
+export default FriendsScreen;
