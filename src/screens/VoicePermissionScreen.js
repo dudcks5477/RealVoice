@@ -1,18 +1,25 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import Common from '../styles/common';
 import voicePermissionScreenStyle from '../styles/voicePermissionScreenStyle';
 
 const VoicePermissionScreen = () => {
   const [isAllowPressed, setIsAllowPressed] = useState(false);
+  const navigation = useNavigation();
 
   const handleAllow = () => {
     setIsAllowPressed(true);
+    handleMain();
   };
 
   const handleDeny = () => {
     console.log('허용하지 않기 버튼을 눌렀습니다.');
+  };
+
+  const handleMain = () => {
+    navigation.navigate('Main');
   };
 
   const allowButtonStyle = isAllowPressed ? {backgroundColor: '#2a55ee'} : null;
