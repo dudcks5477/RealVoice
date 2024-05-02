@@ -66,7 +66,7 @@ const AddMoreFriendsScreen = () => {
           <View style={requiredScreenStyle.recommandContainer}>
             <TouchableOpacity onPress={handleAddFriend}>
               <Text style={addFriendsScreenStyle.recommandText}>
-                &lt; 친구요청
+                &lt; 친구추천
               </Text>
             </TouchableOpacity>
           </View>
