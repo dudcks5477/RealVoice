@@ -19,6 +19,10 @@ const MainScreen = () => {
     navigation.navigate('Profile');
   };
 
+  const handleRecord = () => {
+    navigation.navigate('Record');
+  };
+
   return (
     <View style={Common.container}>
       <View style={mainScreenStyle.header}>
@@ -53,7 +57,7 @@ const MainScreen = () => {
           </Text>
           <TouchableOpacity
             style={mainScreenStyle.voiceBtn}
-            onPress={() => console.log('버튼이 눌렸습니다.')}>
+            onPress={handleRecord}>
             <Text style={mainScreenStyle.buttonText}>
               RealVoice를 포스트하세요.
             </Text>
