@@ -22,6 +22,10 @@ const UploadMainScreen = () => {
     navigation.navigate('Profile');
   };
 
+  const handleUserProfile = () => {
+    navigation.navigate('UserProfile');
+  };
+
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
@@ -60,7 +64,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -81,7 +85,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -90,10 +94,7 @@ const UploadMainScreen = () => {
             <TouchableOpacity
               style={uploadMainScreenStyle.timerBtn}
               onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
+              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
             </TouchableOpacity>
           </View>
           <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
@@ -102,7 +103,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -111,10 +112,7 @@ const UploadMainScreen = () => {
             <TouchableOpacity
               style={uploadMainScreenStyle.timerBtn}
               onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
+              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
             </TouchableOpacity>
           </View>
           <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
@@ -123,7 +121,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -132,10 +130,7 @@ const UploadMainScreen = () => {
             <TouchableOpacity
               style={uploadMainScreenStyle.timerBtn}
               onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
+              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
             </TouchableOpacity>
           </View>
           <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
@@ -144,7 +139,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -153,10 +148,7 @@ const UploadMainScreen = () => {
             <TouchableOpacity
               style={uploadMainScreenStyle.timerBtn}
               onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
+              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
             </TouchableOpacity>
           </View>
           <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
@@ -165,7 +157,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -174,10 +166,7 @@ const UploadMainScreen = () => {
             <TouchableOpacity
               style={uploadMainScreenStyle.timerBtn}
               onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
+              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
             </TouchableOpacity>
           </View>
           <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
@@ -186,7 +175,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -195,10 +184,7 @@ const UploadMainScreen = () => {
             <TouchableOpacity
               style={uploadMainScreenStyle.timerBtn}
               onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
+              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
             </TouchableOpacity>
           </View>
           <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
@@ -207,7 +193,7 @@ const UploadMainScreen = () => {
           <View style={uploadMainScreenStyle.voiceContainer}>
             <TouchableOpacity
               style={mainScreenStyle.buttonContainer}
-              onPress={handleProfile}>
+              onPress={handleUserProfile}>
               <View style={uploadMainScreenStyle.circle}>
                 <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
               </View>
@@ -216,10 +202,7 @@ const UploadMainScreen = () => {
             <TouchableOpacity
               style={uploadMainScreenStyle.timerBtn}
               onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
+              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
             </TouchableOpacity>
           </View>
           <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
