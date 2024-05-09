@@ -54,10 +54,12 @@ const mainScreenStyle = StyleSheet.create({
     color: '#000',
     fontSize: 30,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   subImageText: {
     color: '#000',
     fontSize: 14,
+    textAlign: 'center',
   },
   voiceBtn: {
     width: 233,
