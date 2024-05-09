@@ -51,7 +51,7 @@ const MainScreen = () => {
         />
         <View style={mainScreenStyle.textContainer}>
           {/* 닉네임에 따라 RealVoice가 닉네임으로 바뀜 */}
-          <Text style={mainScreenStyle.imageText}>헤이 RealVoice님</Text>
+          <Text style={mainScreenStyle.imageText}>헤이 사용자님</Text>
           <Text style={mainScreenStyle.subImageText}>
             준비됐어요? RealVoice 할 시간입니다
           </Text>
