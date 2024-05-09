@@ -21,6 +21,7 @@ import SendRequestFriendScreen from './src/screens/SendRequestFriendScreen';
 import RecordScreen from './src/screens/RecordScreen.js';
 import RecordingScreen from './src/screens/RecordingScreen.js';
 import UploadMainScreen from './src/screens/UploadMainScreen.js';
+import EditProfileScreen from './src/screens/EditProfileScreen.js';
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,7 @@ const App = () => {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="AddMoreFriends" component={AddMoreFriendsScreen} />
         <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+        <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="Friends" component={FriendsScreen} />
         <Stack.Screen name="Required" component={RequiredScreen} />
         {/* <Stack.Screen name="RequiredFriend" component={RequiredFriendScreen} /> */}
