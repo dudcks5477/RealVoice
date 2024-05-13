@@ -22,6 +22,10 @@ import RecordScreen from './src/screens/RecordScreen.js';
 import RecordingScreen from './src/screens/RecordingScreen.js';
 import UploadMainScreen from './src/screens/UploadMainScreen.js';
 import EditProfileScreen from './src/screens/EditProfileScreen.js';
+import ProfileEditDetailScreen from './src/screens/ProfileEditDetailScreen.js';
+import ChangeProfileScreen from './src/screens/ChangeProfileScreen.js';
+import MemorySettingScreen from './src/screens/MemorySettingScreen.js';
+import AlertSettingScreen from './src/screens/AlertSettingScreen.js';
 
 const Stack = createStackNavigator();
 
@@ -66,6 +70,13 @@ const App = () => {
           name="SendRequestFriend"
           component={SendRequestFriendScreen}
         />
+        <Stack.Screen
+          name="ProfileEditDetail"
+          component={ProfileEditDetailScreen}
+        />
+        <Stack.Screen name="ChangeProfile" component={ChangeProfileScreen} />
+        <Stack.Screen name="MemorySetting" component={MemorySettingScreen} />
+        <Stack.Screen name="AlertSetting" component={AlertSettingScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
