@@ -10,7 +10,7 @@
 
 ## Developer
 - 김영찬(PM, Frontend)
-- 이강훈, 이호성(Backend)
+- 이호성(Backend)
 
 ## Repositories
 - [Backend Repository](https://github.com/kangwhon/RealVoice)
