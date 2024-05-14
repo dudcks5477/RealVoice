@@ -25,6 +25,21 @@ const EditProfileScreen = () => {
   const handleAlertSetting = () => {
     navigation.navigate('AlertSetting');
   };
+  const handlePrivacy = () => {
+    navigation.navigate('Privacy');
+  };
+  const handleWorldTime = () => {
+    navigation.navigate('WorldTime');
+  };
+  const handleOtherSetting = () => {
+    navigation.navigate('OtherSetting');
+  };
+  const handleHelp = () => {
+    navigation.navigate('Help');
+  };
+  const handleInformation = () => {
+    navigation.navigate('Information');
+  };
 
   return (
     <View style={Common.container}>
@@ -81,7 +96,9 @@ const EditProfileScreen = () => {
             </View>
             <Text style={editProfileScreenStyle.nickname}>알림</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={editProfileScreenStyle.settingBtn}>
+          <TouchableOpacity
+            style={editProfileScreenStyle.settingBtn}
+            onPress={handlePrivacy}>
             <View style={mainScreenStyle.buttonContainer}>
               <Icon
                 name="security"
@@ -90,7 +107,9 @@ const EditProfileScreen = () => {
             </View>
             <Text style={editProfileScreenStyle.nickname}>개인정보 보호</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={editProfileScreenStyle.settingBtn}>
+          <TouchableOpacity
+            style={editProfileScreenStyle.settingBtn}
+            onPress={handleWorldTime}>
             <View style={mainScreenStyle.buttonContainer}>
               <Icon
                 name="access-time"
@@ -99,7 +118,9 @@ const EditProfileScreen = () => {
             </View>
             <Text style={editProfileScreenStyle.nickname}>시간대</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={editProfileScreenStyle.settingsOtherBtn}>
+          <TouchableOpacity
+            style={editProfileScreenStyle.settingsOtherBtn}
+            onPress={handleOtherSetting}>
             <View style={mainScreenStyle.buttonContainer}>
               <Icon
                 name="settings"
@@ -131,7 +152,9 @@ const EditProfileScreen = () => {
               RealVoice 평가하기
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={editProfileScreenStyle.settingBtn}>
+          <TouchableOpacity
+            style={editProfileScreenStyle.settingBtn}
+            onPress={handleHelp}>
             <View style={mainScreenStyle.buttonContainer}>
               <Icon
                 name="help-outline"
@@ -140,7 +163,9 @@ const EditProfileScreen = () => {
             </View>
             <Text style={editProfileScreenStyle.nickname}>도움 받기</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={editProfileScreenStyle.settingsOtherBtn}>
+          <TouchableOpacity
+            style={editProfileScreenStyle.settingsOtherBtn}
+            onPress={handleInformation}>
             <View style={mainScreenStyle.buttonContainer}>
               <Icon
                 name="error-outline"
