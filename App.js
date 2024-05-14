@@ -26,6 +26,14 @@ import ProfileEditDetailScreen from './src/screens/ProfileEditDetailScreen.js';
 import ChangeProfileScreen from './src/screens/ChangeProfileScreen.js';
 import MemorySettingScreen from './src/screens/MemorySettingScreen.js';
 import AlertSettingScreen from './src/screens/AlertSettingScreen.js';
+import PrivacyScreen from './src/screens/PrivacyScreen.js';
+import BlockedScreen from './src/screens/BlockedScreen.js';
+import HidedScreen from './src/screens/HidedScreen.js';
+import WorldTimeScreen from './src/screens/WorldTimeScreen.js';
+import OtherSettingScreen from './src/screens/OtherSettingScreen.js';
+import HelpScreen from './src/screens/HelpScreen.js';
+import HelpChooseScreen from './src/screens/HelpChooseScreen.js';
+import InformationScreen from './src/screens/InformationScreen.js';
 
 const Stack = createStackNavigator();
 
@@ -77,6 +85,14 @@ const App = () => {
         <Stack.Screen name="ChangeProfile" component={ChangeProfileScreen} />
         <Stack.Screen name="MemorySetting" component={MemorySettingScreen} />
         <Stack.Screen name="AlertSetting" component={AlertSettingScreen} />
+        <Stack.Screen name="Privacy" component={PrivacyScreen} />
+        <Stack.Screen name="Blocked" component={BlockedScreen} />
+        <Stack.Screen name="Hided" component={HidedScreen} />
+        <Stack.Screen name="WorldTime" component={WorldTimeScreen} />
+        <Stack.Screen name="OtherSetting" component={OtherSettingScreen} />
+        <Stack.Screen name="Help" component={HelpScreen} />
+        <Stack.Screen name="HelpChoose" component={HelpChooseScreen} />
+        <Stack.Screen name="Information" component={InformationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
