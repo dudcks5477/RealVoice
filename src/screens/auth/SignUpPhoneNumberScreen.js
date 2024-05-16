@@ -8,7 +8,7 @@ import {
   Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import axios from 'axios';
 import Common from '../../styles/common';
 import signUpPhoneNumberScreenStyle from '../../styles/signUpPhoneNumberScreenStyle';
 
@@ -18,8 +18,11 @@ const SignUpPhoneNumberScreen = () => {
   const navigation = useNavigation();
 
   const handlePhoneNumberChange = text => {
+    // 숫자 이외의 문자는 모두 제거
+    text = text.replace(/[^0-9]/g, '');
     setPhoneNumber(text);
-    setIsPhoneNumberValid(text.trim().length === 11);
+    // 11자리인지 확인
+    setIsPhoneNumberValid(text.length === 11);
   };
 
   const handleSignUp = () => {
@@ -27,7 +30,22 @@ const SignUpPhoneNumberScreen = () => {
       Alert.alert('전화번호를 입력하세요.');
       return;
     }
-    navigation.navigate('PhoneVerification');
+    const verificationCode = '123456';
+    // API 호출
+    axios
+      // .post(process.env.API_URL + '/api/users', {
+      .post(process.env.API_URL + 'api/users', {
+        phoneNumber,
+        verificationCode,
+      })
+      .then(response => {
+        console.log('전화번호가 성공적으로 저장되었습니다.');
+        navigation.navigate('PhoneVerification');
+      })
+      .catch(error => {
+        console.error('전화번호 저장 중 에러 발생:', error);
+        Alert.alert('전화번호를 저장하는데 문제가 발생했습니다.');
+      });
   };
 
   // const goToTermsOfService = () => {
