@@ -71,3 +71,4 @@ yarn-error.log
 .bundle
 .prettierrc.js
 .watchmanconfig
+.env
