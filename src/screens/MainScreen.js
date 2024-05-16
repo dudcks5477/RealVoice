@@ -1,15 +1,31 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
 
 const MainScreen = () => {
-  const userName = 'Chan';
-  const firstLetter = userName.charAt(0).toUpperCase();
+  const [userName, setUserName] = useState('');
   const navigation = useNavigation();
+
+  // useEffect(() => {
+  //   const fetchUserInfo = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:8081/');
+  //       setUserName(response.data.name);
+  //     } catch (error) {
+  //       console.error('사용자 정보 가져오기 오류:', error);
+  //       Alert.alert('오류', '사용자 정보를 가져오는데 문제가 발생했습니다.');
+  //     }
+  //   };
+
+  //   fetchUserInfo();
+  // }, []);
+
+  const firstLetter = userName.charAt(0).toUpperCase();
 
   const handleAddFriends = () => {
     navigation.navigate('AddFriends');
@@ -51,7 +67,7 @@ const MainScreen = () => {
         />
         <View style={mainScreenStyle.textContainer}>
           {/* 닉네임에 따라 RealVoice가 닉네임으로 바뀜 */}
-          <Text style={mainScreenStyle.imageText}>헤이 사용자님</Text>
+          <Text style={mainScreenStyle.imageText}>헤이 {userName}님</Text>
           <Text style={mainScreenStyle.subImageText}>
             준비됐어요? RealVoice 할 시간입니다
           </Text>
