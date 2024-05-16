@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  PermissionsAndroid,
+  Platform,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Common from '../../styles/common';
@@ -9,13 +15,34 @@ const VoicePermissionScreen = () => {
   const [isAllowPressed, setIsAllowPressed] = useState(false);
   const navigation = useNavigation();
 
-  const handleAllow = () => {
-    setIsAllowPressed(true);
-    handleMain();
+  const handleAllow = async () => {
+    if (Platform.OS === 'android' && Platform.Version >= 13) {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+          {
+            title: '알림 권한 요청',
+            message: 'RealVoice에서 알림을 표시하도록 허용하시겠습니까?',
+            buttonPositive: '허용하기',
+            buttonNegative: '허용하지 않기',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('알림 권한이 허용되었습니다.');
+        } else {
+          console.log('알림 권한이 거부되었습니다.');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+      setIsAllowPressed(true);
+      handleMain();
+    }
   };
 
   const handleDeny = () => {
     console.log('허용하지 않기 버튼을 눌렀습니다.');
+    navigation.navigate('Main');
   };
 
   const handleMain = () => {
