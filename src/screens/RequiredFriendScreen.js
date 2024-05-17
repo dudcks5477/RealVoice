@@ -10,6 +10,7 @@ import {
 import Common from '../styles/common';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import Header from '../components/Header';
 
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -21,7 +22,7 @@ const RequiredFriendScreen = () => {
   const firstLetter = userName.charAt(0).toUpperCase();
   const [isAdded, setIsAdded] = useState(false);
 
-  const Main = () => {
+  const handleMain = () => {
     navigation.navigate('Main');
   };
 
@@ -47,17 +48,7 @@ const RequiredFriendScreen = () => {
 
   return (
     <View style={Common.container}>
-      <View style={addFriendsScreenStyle.header}>
-        <View style={addFriendsScreenStyle.iconContainer}>
-          <Icon name="group" style={addFriendsScreenStyle.iconNone} />
-        </View>
-        <Text style={addFriendsScreenStyle.headerText}>RealVoice</Text>
-        <TouchableOpacity
-          style={addFriendsScreenStyle.iconContainer}
-          onPress={Main}>
-          <Icon name="arrow-forward" style={addFriendsScreenStyle.icon} />
-        </TouchableOpacity>
-      </View>
+      <Header onMain={handleMain} />
       <ScrollView style={{flex: 1}}>
         <View style={addFriendsScreenStyle.search}>
           <View style={addFriendsScreenStyle.searchContainer}>

@@ -7,13 +7,14 @@ import {useNavigation} from '@react-navigation/native';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
+import Header from '../components/Header';
 
 const SendRequestFriendScreen = () => {
   const navigation = useNavigation();
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
 
-  const Main = () => {
+  const handleMain = () => {
     navigation.navigate('Main');
   };
 
@@ -48,17 +49,7 @@ const SendRequestFriendScreen = () => {
 
   return (
     <View style={Common.container}>
-      <View style={addFriendsScreenStyle.header}>
-        <View style={addFriendsScreenStyle.iconContainer}>
-          <Icon name="group" style={addFriendsScreenStyle.iconNone} />
-        </View>
-        <Text style={addFriendsScreenStyle.headerText}>RealVoice</Text>
-        <TouchableOpacity
-          style={addFriendsScreenStyle.iconContainer}
-          onPress={Main}>
-          <Icon name="arrow-forward" style={addFriendsScreenStyle.icon} />
-        </TouchableOpacity>
-      </View>
+      <Header onMain={handleMain} />
       <ScrollView style={{flex: 1, marginTop: 60}}>
         <View style={addFriendsScreenStyle.recommand}>
           <View style={requiredScreenStyle.recommandContainer}>

@@ -1,31 +1,34 @@
 import React, {useState} from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import Common from '../styles/common';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
-import mainScreenStyle from '../styles/mainScreenStyle';
+
+import Header from '../components/Header';
+import Search from '../components/Search';
+import ShareInvite from '../components/ShareInvite';
+import FriendItem from '../components/FriendItem';
+import InviteItem from '../components/InviteItem';
+import Footer from '../components/Footer';
 
 const AddFriendsScreen = () => {
   const navigation = useNavigation();
+
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
-  const [isAdded, setIsAdded] = useState(false);
 
-  const Main = () => {
+  const [isAdded, setIsAdded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleMain = () => {
     navigation.navigate('Main');
   };
 
-  const handleUserProfile = () => {
-    navigation.navigate('UserProfile');
+  const handleUserProfile = friendId => {
+    navigation.navigate('UserProfile', {id: friendId});
   };
 
   const handleFriends = () => {
@@ -41,197 +44,62 @@ const AddFriendsScreen = () => {
   };
 
   const handleAddFriends = () => {
+    navigation.navigate('AddFriends');
+  };
+
+  const handleAddFriend = async friendId => {
+    try {
+      const response = await axios.post('/api/friends/add', {
+        userId: userName,
+        friendId: friendId,
+      });
+      if (response.status === 200) {
+        setIsAdded(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
     setIsAdded(!isAdded);
+  };
+
+  const handleSearchFriends = async () => {
+    try {
+      const response = await axios.get('/api/friends/search', {
+        params: {query: searchQuery},
+      });
+      if (response.status === 200) {
+        setSearchResults(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <View style={Common.container}>
-      <View style={addFriendsScreenStyle.header}>
-        <View style={addFriendsScreenStyle.iconContainer}>
-          <Icon name="group" style={addFriendsScreenStyle.iconNone} />
-        </View>
-        <Text style={addFriendsScreenStyle.headerText}>RealVoice</Text>
-        <TouchableOpacity
-          style={addFriendsScreenStyle.iconContainer}
-          onPress={Main}>
-          <Icon name="arrow-forward" style={addFriendsScreenStyle.icon} />
-        </TouchableOpacity>
-      </View>
+      <Header onMain={handleMain} />
       <ScrollView style={{flex: 1}}>
-        <View style={addFriendsScreenStyle.search}>
-          <View style={addFriendsScreenStyle.searchContainer}>
-            <Icon name="search" style={addFriendsScreenStyle.searchIcon} />
-            <TextInput
-              style={addFriendsScreenStyle.searchInput}
-              placeholder="친구 추가 또는 검색"
-            />
-          </View>
-        </View>
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          onSearch={handleSearchFriends}
+        />
         {/* 공유 버튼 클릭시 공유하기 나오는 로직 필요 */}
-        <TouchableOpacity style={addFriendsScreenStyle.share}>
-          <View style={addFriendsScreenStyle.shareContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <View style={mainScreenStyle.circle}>
-                <Text style={mainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </View>
-            <View>
-              <Text style={addFriendsScreenStyle.Invited}>RealVoice 초대</Text>
-              <Text style={addFriendsScreenStyle.nickName}>realvoice</Text>
-            </View>
-            <View style={addFriendsScreenStyle.shareIconContainer}>
-              <Icon name="share" style={addFriendsScreenStyle.shareIcon} />
-            </View>
-          </View>
-        </TouchableOpacity>
+        <ShareInvite firstLetter={firstLetter} />
         {/* 친구 추천(연락처를 통한 가입자들 or 친구의 친구들) & 추가 & 삭제 로직 필요 */}
         <View style={addFriendsScreenStyle.recommand}>
           <View style={addFriendsScreenStyle.recommandContainer}>
             <Text style={addFriendsScreenStyle.recommandText}>추천</Text>
           </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View
-              style={[
-                addFriendsScreenStyle.addCancelBtn,
-                isAdded && {marginRight: 18},
-              ]}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.addBtn}
-                onPress={handleAddFriends}>
-                <Text
-                  style={[
-                    addFriendsScreenStyle.addText,
-                    isAdded && {color: '#2a55ee'},
-                  ]}>
-                  {isAdded ? '추가됨' : '추가'}
-                </Text>
-              </TouchableOpacity>
-              {!isAdded && (
-                <TouchableOpacity
-                  style={addFriendsScreenStyle.cancelBtn}
-                  onPress={() => {
-                    Alert.alert(
-                      '친구 삭제',
-                      '정말로 친구를 삭제하시겠습니까?',
-                      [
-                        {
-                          text: '취소',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                        {
-                          text: '숨기기',
-                          onPress: () => {
-                            console.log('친구 삭제됨');
-                          },
-                        },
-                      ],
-                      {cancelable: false},
-                    );
-                  }}>
-                  <Icon
-                    name="cancel"
-                    style={addFriendsScreenStyle.cancelIcon}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity style={addFriendsScreenStyle.addBtn}>
-                <Text style={addFriendsScreenStyle.addText}>추가</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={addFriendsScreenStyle.cancelBtn}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity style={addFriendsScreenStyle.addBtn}>
-                <Text style={addFriendsScreenStyle.addText}>추가</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={addFriendsScreenStyle.cancelBtn}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity style={addFriendsScreenStyle.addBtn}>
-                <Text style={addFriendsScreenStyle.addText}>추가</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={addFriendsScreenStyle.cancelBtn}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity style={addFriendsScreenStyle.addBtn}>
-                <Text style={addFriendsScreenStyle.addText}>추가</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={addFriendsScreenStyle.cancelBtn}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
+          {searchResults.map(result => (
+            <FriendItem
+              key={result.id}
+              friend={result}
+              onAdd={handleAddFriend}
+              onProfile={handleUserProfile}
+              isAdded={isAdded}
+            />
+          ))}
           <TouchableOpacity
             style={addFriendsScreenStyle.moreDetail}
             onPress={handleMoreDetail}>
@@ -244,94 +112,23 @@ const AddFriendsScreen = () => {
               RealVoice 연락처
             </Text>
           </View>
-          {/* 초대 버튼은 공유 버튼처럼 타 앱으로 전송할 수 있는 기능 필요 */}
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <View style={addFriendsScreenStyle.circle}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </View>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <TouchableOpacity style={addFriendsScreenStyle.invitedFriend}>
-              <Text style={addFriendsScreenStyle.addText}>초대</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <View style={addFriendsScreenStyle.circle}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </View>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <TouchableOpacity style={addFriendsScreenStyle.invitedFriend}>
-              <Text style={addFriendsScreenStyle.addText}>초대</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <View style={addFriendsScreenStyle.circle}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </View>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <TouchableOpacity style={addFriendsScreenStyle.invitedFriend}>
-              <Text style={addFriendsScreenStyle.addText}>초대</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <View style={addFriendsScreenStyle.circle}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </View>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <TouchableOpacity style={addFriendsScreenStyle.invitedFriend}>
-              <Text style={addFriendsScreenStyle.addText}>초대</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <View style={addFriendsScreenStyle.circle}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </View>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <TouchableOpacity style={addFriendsScreenStyle.invitedFriend}>
-              <Text style={addFriendsScreenStyle.addText}>초대</Text>
-            </TouchableOpacity>
-          </View>
+          {Array(5)
+            .fill()
+            .map((_, index) => (
+              <InviteItem
+                key={index}
+                firstLetter={firstLetter}
+                name={`RealVoice${index + 1}`}
+                username={`realvoice${index + 1}`}
+              />
+            ))}
         </View>
       </ScrollView>
-      <View style={addFriendsScreenStyle.selectFooter}>
-        <TouchableOpacity style={addFriendsScreenStyle.textRecommandContainer}>
-          <Text style={addFriendsScreenStyle.footerText}>추천</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={addFriendsScreenStyle.textMore}
-          onPress={handleFriends}>
-          <Text style={addFriendsScreenStyle.footerText}>친구들</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={addFriendsScreenStyle.textMore}
-          onPress={handleRequired}>
-          <Text style={addFriendsScreenStyle.footerText}>요청</Text>
-        </TouchableOpacity>
-      </View>
+      <Footer
+        onRecommend={handleAddFriends}
+        onFriends={handleFriends}
+        onRequired={handleRequired}
+      />
     </View>
   );
 };
