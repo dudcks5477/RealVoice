@@ -33,8 +33,7 @@ const SignUpPhoneNumberScreen = () => {
     const verificationCode = '123456';
     // API 호출
     axios
-      // .post(process.env.API_URL + '/api/users', {
-      .post(process.env.API_URL + 'api/users', {
+      .post('/api/users', {
         phoneNumber,
         verificationCode,
       })

@@ -22,7 +22,7 @@ const PhoneVerificationScreen = () => {
     }
     // api 호출
     axios
-      .post(process.env.API_URL + '/api/users', {
+      .post('/api/users', {
         verificationCode,
       })
       .then(response => {
@@ -37,7 +37,7 @@ const PhoneVerificationScreen = () => {
 
   const handleResendVerificationCode = () => {
     axios
-      .post(process.env.API_URL + 'api/resend-verification')
+      .post('api/resend-verification')
       .then(response => {
         Alert.alert('인증번호를 재전송하였습니다.');
         console.log('인증번호를 다시 전송합니다.');

@@ -28,9 +28,9 @@ const VoicePermissionScreen = () => {
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('알림 권한이 허용되었습니다.');
-        } else {
           console.log('알림 권한이 거부되었습니다.');
+        } else {
+          console.log('알림 권한이 허용되었습니다.');
         }
       } catch (err) {
         console.warn(err);

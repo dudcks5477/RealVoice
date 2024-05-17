@@ -22,7 +22,7 @@ const NickNameScreen = () => {
 
   const handleNextPress = () => {
     axios
-      .post(process.env.API_URL + '/api/nickname', {
+      .post('/api/nickname', {
         nickName,
       })
       .then(response => {
