@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,16 +9,22 @@ import {
 import Common from '../styles/common';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import Header from '../components/Header';
+import axios from 'axios';
 
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
 
+import Header from '../components/Header';
+import Search from '../components/Search';
+import ShareInvite from '../components/ShareInvite';
+
 const RequiredScreen = () => {
   const navigation = useNavigation();
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleMain = () => {
     navigation.navigate('Main');
@@ -40,36 +46,29 @@ const RequiredScreen = () => {
     navigation.navigate('SendRequestFriend');
   };
 
+  const handleSearchFriends = async () => {
+    try {
+      const response = await axios.get('/api/friends/search', {
+        params: {query: searchQuery},
+      });
+      if (response.status === 200) {
+        setSearchResults(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <View style={Common.container}>
       <Header onMain={handleMain} />
       <ScrollView styles={{flex: 1}}>
-        <View style={addFriendsScreenStyle.search}>
-          <View style={addFriendsScreenStyle.searchContainer}>
-            <Icon name="search" style={addFriendsScreenStyle.searchIcon} />
-            <TextInput
-              style={addFriendsScreenStyle.searchInput}
-              placeholder="친구 추가 또는 검색"
-            />
-          </View>
-        </View>
-        {/* 공유 버튼 클릭시 공유하기 나오는 로직 필요 */}
-        <TouchableOpacity style={addFriendsScreenStyle.share}>
-          <View style={addFriendsScreenStyle.shareContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <View style={mainScreenStyle.circle}>
-                <Text style={mainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </View>
-            <View>
-              <Text style={addFriendsScreenStyle.Invited}>RealVoice 초대</Text>
-              <Text style={addFriendsScreenStyle.nickName}>realvoice</Text>
-            </View>
-            <View style={addFriendsScreenStyle.shareIconContainer}>
-              <Icon name="share" style={addFriendsScreenStyle.shareIcon} />
-            </View>
-          </View>
-        </TouchableOpacity>
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          onSearch={handleSearchFriends}
+        />
+        <ShareInvite firstLetter={firstLetter} />
 
         <View style={addFriendsScreenStyle.recommand}>
           <View style={requiredScreenStyle.recommandContainer}>

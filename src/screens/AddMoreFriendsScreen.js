@@ -14,9 +14,17 @@ import FriendItem from '../components/FriendItem';
 
 const AddMoreFriendsScreen = () => {
   const navigation = useNavigation();
+  const userName = 'Chan';
   const [isAdded, setIsAdded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([
+    {id: 1, name: 'zerochan', username: 'YoungChan'},
+    {id: 2, name: 'Isho', username: 'HoSeong'},
+    {id: 3, name: 'Sam Wilson', username: ''},
+    {id: 4, name: 'Chris Evans', username: ''},
+    {id: 5, name: 'Robert Downey', username: ''},
+    {id: 6, name: 'Scarlett Johansson', username: ''},
+  ]);
 
   const handleMain = () => {
     navigation.navigate('Main');
@@ -26,8 +34,22 @@ const AddMoreFriendsScreen = () => {
     navigation.navigate('UserProfile');
   };
 
-  const handleAddFriend = () => {
+  const handleAddFriends = () => {
     navigation.navigate('AddFriends');
+  };
+
+  const handleAddFriend = async friendId => {
+    try {
+      const response = await axios.post('/api/friends/add', {
+        userId: userName,
+        friendId: friendId,
+      });
+      if (response.status === 200) {
+        console.log(`Added friend with id ${friendId}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSearchFriends = async () => {
@@ -43,6 +65,12 @@ const AddMoreFriendsScreen = () => {
     }
   };
 
+  const handleDeleteFriend = friendId => {
+    setSearchResults(prevResults =>
+      prevResults.filter(friend => friend.id !== friendId),
+    );
+  };
+
   return (
     <View style={Common.container}>
       <Header onMain={handleMain} />
@@ -56,7 +84,7 @@ const AddMoreFriendsScreen = () => {
         {/* 친구 추천(연락처를 통한 가입자들 or 친구의 친구들) & 추가 & 삭제 로직 필요 */}
         <View style={addMoreFriendsScreenStyle.recommand}>
           <View style={requiredScreenStyle.recommandContainer}>
-            <TouchableOpacity onPress={handleAddFriend}>
+            <TouchableOpacity onPress={handleAddFriends}>
               <Text style={addFriendsScreenStyle.recommandText}>
                 &lt; 친구추천
               </Text>
@@ -69,6 +97,7 @@ const AddMoreFriendsScreen = () => {
               onAdd={handleAddFriend}
               onProfile={handleUserProfile}
               isAdded={isAdded}
+              onDelete={handleDeleteFriend}
             />
           ))}
         </View>

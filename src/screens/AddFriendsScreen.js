@@ -15,13 +15,17 @@ import Footer from '../components/Footer';
 
 const AddFriendsScreen = () => {
   const navigation = useNavigation();
-
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
-
-  const [isAdded, setIsAdded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([
+    {id: 1, name: 'zerochan', username: 'YoungChan'},
+    {id: 2, name: 'Isho', username: 'HoSeong'},
+    {id: 3, name: 'Sam Wilson', username: ''},
+    {id: 4, name: 'Chris Evans', username: ''},
+    {id: 5, name: 'Robert Downey', username: ''},
+    {id: 6, name: 'Scarlett Johansson', username: ''},
+  ]);
 
   const handleMain = () => {
     navigation.navigate('Main');
@@ -54,12 +58,17 @@ const AddFriendsScreen = () => {
         friendId: friendId,
       });
       if (response.status === 200) {
-        setIsAdded(true);
+        console.log(`Added friend with id ${friendId}`);
       }
     } catch (error) {
       console.error(error);
     }
-    setIsAdded(!isAdded);
+  };
+
+  const handleDeleteFriend = friendId => {
+    setSearchResults(prevResults =>
+      prevResults.filter(friend => friend.id !== friendId),
+    );
   };
 
   const handleSearchFriends = async () => {
@@ -84,28 +93,37 @@ const AddFriendsScreen = () => {
           setSearchQuery={setSearchQuery}
           onSearch={handleSearchFriends}
         />
-        {/* 공유 버튼 클릭시 공유하기 나오는 로직 필요 */}
         <ShareInvite firstLetter={firstLetter} />
-        {/* 친구 추천(연락처를 통한 가입자들 or 친구의 친구들) & 추가 & 삭제 로직 필요 */}
-        <View style={addFriendsScreenStyle.recommand}>
-          <View style={addFriendsScreenStyle.recommandContainer}>
-            <Text style={addFriendsScreenStyle.recommandText}>추천</Text>
+        {searchResults.length > 0 && (
+          <View style={addFriendsScreenStyle.recommand}>
+            <View style={addFriendsScreenStyle.recommandContainer}>
+              <Text style={addFriendsScreenStyle.recommandText}>추천</Text>
+            </View>
+            {searchResults.slice(0, 5).map(result => (
+              <FriendItem
+                key={result.id}
+                friend={result}
+                onAdd={handleAddFriend}
+                onProfile={handleUserProfile}
+                onDelete={handleDeleteFriend} // 삭제 함수 전달
+              />
+            ))}
+            {searchResults.length > 5 && (
+              <TouchableOpacity
+                style={addFriendsScreenStyle.moreDetail}
+                onPress={handleMoreDetail}>
+                <Text style={addFriendsScreenStyle.searchInput}>더보기</Text>
+              </TouchableOpacity>
+            )}
           </View>
-          {searchResults.map(result => (
-            <FriendItem
-              key={result.id}
-              friend={result}
-              onAdd={handleAddFriend}
-              onProfile={handleUserProfile}
-              isAdded={isAdded}
-            />
-          ))}
-          <TouchableOpacity
-            style={addFriendsScreenStyle.moreDetail}
-            onPress={handleMoreDetail}>
-            <Text style={addFriendsScreenStyle.searchInput}>더보기</Text>
-          </TouchableOpacity>
-        </View>
+        )}
+        {searchResults.length === 0 && (
+          <View style={addFriendsScreenStyle.recommand}>
+            <Text style={addFriendsScreenStyle.recommandText}>
+              추천 친구가 없습니다.
+            </Text>
+          </View>
+        )}
         <View style={addFriendsScreenStyle.contact}>
           <View style={addFriendsScreenStyle.recommandContainer}>
             <Text style={addFriendsScreenStyle.recommandText}>
