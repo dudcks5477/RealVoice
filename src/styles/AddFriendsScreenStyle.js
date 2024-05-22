@@ -85,9 +85,9 @@ const addFriendsScreenStyle = StyleSheet.create({
     fontSize: 20,
   },
   recommand: {
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop: 20,
+    // height: 345,
+    alignItems: 'center',
   },
   recommandContainer: {
     width: 370,
@@ -102,9 +102,9 @@ const addFriendsScreenStyle = StyleSheet.create({
   addFriendContainer: {
     width: 380,
     borderRadius: 14,
+    marginTop: 20,
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 20,
     justifyContent: 'space-between',
   },
   circle: {
@@ -186,6 +186,9 @@ const addFriendsScreenStyle = StyleSheet.create({
     backgroundColor: '#d9d9d9',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  selectedTextContainer: {
+    backgroundColor: '#d9d9d9',
   },
   footerText: {
     color: '#000',
