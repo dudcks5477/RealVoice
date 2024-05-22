@@ -1,11 +1,44 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 
-const FriendItem = ({friend, onAdd, onProfile, isAdded}) => {
+const FriendItem = ({friend, onAdd, onProfile, onDelete}) => {
+  const [isAdded, setIsAdded] = useState(false); // 각 친구별 추가 상태 관리
   const firstLetter = friend.name.charAt(0).toUpperCase();
+
+  const handleAdd = () => {
+    if (isAdded) {
+      console.log(`Friend ${friend.id} has been removed`);
+    } else {
+      onAdd(friend.id);
+      console.log(`Friend ${friend.id} has been added`);
+    }
+    setIsAdded(!isAdded); // 추가 상태 업데이트
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      '친구 삭제',
+      '정말로 친구를 삭제하시겠습니까?',
+      [
+        {
+          text: '취소',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: '삭제',
+          onPress: () => {
+            console.log('친구 삭제됨');
+            onDelete(friend.id); // 친구 삭제 함수 호출
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
 
   return (
     <View style={addFriendsScreenStyle.addFriendContainer}>
@@ -20,14 +53,10 @@ const FriendItem = ({friend, onAdd, onProfile, isAdded}) => {
           <Text style={addFriendsScreenStyle.nickName}>{friend.username}</Text>
         </View>
       </View>
-      <View
-        style={[
-          addFriendsScreenStyle.addCancelBtn,
-          isAdded && {marginRight: 18},
-        ]}>
+      <View style={addFriendsScreenStyle.addCancelBtn}>
         <TouchableOpacity
           style={addFriendsScreenStyle.addBtn}
-          onPress={() => onAdd(friend.id)}>
+          onPress={handleAdd}>
           <Text
             style={[
               addFriendsScreenStyle.addText,
@@ -39,26 +68,7 @@ const FriendItem = ({friend, onAdd, onProfile, isAdded}) => {
         {!isAdded && (
           <TouchableOpacity
             style={addFriendsScreenStyle.cancelBtn}
-            onPress={() => {
-              Alert.alert(
-                '친구 삭제',
-                '정말로 친구를 삭제하시겠습니까?',
-                [
-                  {
-                    text: '취소',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                  },
-                  {
-                    text: '숨기기',
-                    onPress: () => {
-                      console.log('친구 삭제됨');
-                    },
-                  },
-                ],
-                {cancelable: false},
-              );
-            }}>
+            onPress={handleDelete}>
             <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
           </TouchableOpacity>
         )}
