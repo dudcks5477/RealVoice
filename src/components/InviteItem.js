@@ -1,9 +1,17 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Linking, Platform} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 
 const InviteItem = ({firstLetter, name, username}) => {
+  const handleInvite = () => {
+    const phoneNumber = '01023456789';
+    const message =
+      'RealVoice에 초대합니다. 친구들과 자신의 RealVoice를 공유하세요!';
+
+    Linking.openURL(`sms:${phoneNumber}&body=${message}`);
+  };
   return (
     <View style={addFriendsScreenStyle.addFriendContainer}>
       <View style={mainScreenStyle.buttonContainer}>
@@ -15,7 +23,9 @@ const InviteItem = ({firstLetter, name, username}) => {
           <Text style={addFriendsScreenStyle.nickName}>{username}</Text>
         </View>
       </View>
-      <TouchableOpacity style={addFriendsScreenStyle.invitedFriend}>
+      <TouchableOpacity
+        style={addFriendsScreenStyle.invitedFriend}
+        onPress={handleInvite}>
         <Text style={addFriendsScreenStyle.addText}>초대</Text>
       </TouchableOpacity>
     </View>
