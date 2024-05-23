@@ -22,16 +22,10 @@ const FriendsScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [friends, setFriends] = useState([
-    'RealVoice1',
-    'RealVoice2',
-    'RealVoice3',
-    'RealVoice4',
-    'RealVoice5',
-    'RealVoice6',
-    'RealVoice7',
-    'RealVoice8',
-    'RealVoice9',
-    'RealVoice10',
+    'Bruce Banner',
+    'Betty Ross',
+    'Emil Blonsky',
+    'Thunderbolt Ross',
   ]);
 
   const handleMain = () => {
