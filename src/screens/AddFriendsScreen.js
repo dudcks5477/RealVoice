@@ -21,10 +21,15 @@ const AddFriendsScreen = () => {
   const [searchResults, setSearchResults] = useState([
     {id: 1, name: 'zerochan', username: 'YoungChan'},
     {id: 2, name: 'Isho', username: 'HoSeong'},
-    {id: 3, name: 'Sam Wilson', username: ''},
-    {id: 4, name: 'Chris Evans', username: ''},
-    {id: 5, name: 'Robert Downey', username: ''},
-    {id: 6, name: 'Scarlett Johansson', username: ''},
+    {id: 3, name: 'Tony Stark', username: ''},
+    {id: 4, name: 'Jamse Rose', username: ''},
+    {id: 5, name: 'Pepper potts', username: ''},
+    {id: 6, name: 'Happy Hogan', username: ''},
+    {id: 7, name: 'Phil Coulson', username: ''},
+    {id: 8, name: 'Jarvis', username: ''},
+    {id: 9, name: 'Howard Stark', username: ''},
+    {id: 10, name: 'Stan Lee', username: ''},
+    {id: 11, name: 'Nick Fury', username: ''},
   ]);
 
   const handleMain = () => {
@@ -53,13 +58,14 @@ const AddFriendsScreen = () => {
 
   const handleAddFriend = async friendId => {
     try {
-      const response = await axios.post('/api/friends/add', {
-        userId: userName,
-        friendId: friendId,
-      });
-      if (response.status === 200) {
-        console.log(`Added friend with id ${friendId}`);
-      }
+      // const response = await axios.post('/api/friends/add', {
+      //   userId: userName,
+      //   friendId: friendId,
+      // });
+      // if (response.status === 200) {
+      //   console.log(`Added friend with id ${friendId}`);
+      // }
+      console.log(`Added friend with id ${friendId}`);
     } catch (error) {
       console.error(error);
     }
