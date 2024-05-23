@@ -1,18 +1,34 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity, Alert} from 'react-native';
 import Common from '../styles/common';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
-import mainScreenStyle from '../styles/mainScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
 import Header from '../components/Header';
+import FriendDeleteItem from '../components/FriendDeleteItem';
 
 const SendRequestFriendScreen = () => {
   const navigation = useNavigation();
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
+  const [friends, setFriends] = useState([
+    'Thor',
+    'Mighty Thor',
+    'Loki',
+    'Odin',
+    'Erik Selvig',
+    'Sif',
+    'Hogun',
+    'Volstagg',
+    'Fandral',
+    'Heimdall',
+    'Destroyer',
+    'Darcy Lewis',
+    'Frigga',
+    'Laufey',
+    'Hawkeye',
+  ]);
 
   const handleMain = () => {
     navigation.navigate('Main');
@@ -26,25 +42,9 @@ const SendRequestFriendScreen = () => {
     navigation.navigate('Required');
   };
 
-  const handleDeleteFriend = () => {
-    Alert.alert(
-      '친구 삭제',
-      '정말로 친구를 삭제하시겠습니까?',
-      [
-        {
-          text: '취소',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {
-          text: '삭제',
-          onPress: () => {
-            console.log('친구 삭제됨');
-          },
-        },
-      ],
-      {cancelable: false},
-    );
+  const handleDeleteFriend = friendName => {
+    const updateFriends = friends.filter(friend => friend !== friendName);
+    setFriends(updateFriends);
   };
 
   return (
@@ -59,106 +59,13 @@ const SendRequestFriendScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.cancelBtn}
-                onPress={handleDeleteFriend}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.cancelBtn}
-                onPress={handleDeleteFriend}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.cancelBtn}
-                onPress={handleDeleteFriend}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.cancelBtn}
-                onPress={handleDeleteFriend}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={addFriendsScreenStyle.addFriendContainer}>
-            <View style={mainScreenStyle.buttonContainer}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.circle}
-                onPress={handleUserProfile}>
-                <Text style={addFriendsScreenStyle.button}>{firstLetter}</Text>
-              </TouchableOpacity>
-              <View style={addFriendsScreenStyle.nickNameContainer}>
-                <Text style={addFriendsScreenStyle.Invited}>RealVoice1</Text>
-                <Text style={addFriendsScreenStyle.nickName}>realvoice1</Text>
-              </View>
-            </View>
-            <View style={addFriendsScreenStyle.addCancelBtn}>
-              <TouchableOpacity
-                style={addFriendsScreenStyle.cancelBtn}
-                onPress={handleDeleteFriend}>
-                <Icon name="cancel" style={addFriendsScreenStyle.cancelIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
+          {friends.map((friendName, index) => (
+            <FriendDeleteItem
+              key={index}
+              friendName={friendName}
+              onDelete={handleDeleteFriend}
+            />
+          ))}
         </View>
       </ScrollView>
     </View>
