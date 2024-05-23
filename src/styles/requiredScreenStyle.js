@@ -32,6 +32,9 @@ const requiredScreenStyle = StyleSheet.create({
     color: '#fff',
     opacity: 0.5,
   },
+  friendContainer: {
+    alignItems: 'center',
+  },
 });
 
 export default requiredScreenStyle;
