@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Linking, Platform} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {View, Text, TouchableOpacity, Linking} from 'react-native';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 
