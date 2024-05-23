@@ -3,20 +3,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import SplashScreen from './src/components/SplashScreen';
-import SignUpPhoneNumberScreen from './src/screens/SignUpPhoneNumberScreen';
-import PhoneVerificationScreen from './src/screens/PhoneVerificationScreen';
-import MicroPhonePermissionScreen from './src/screens/MicroPhonePermissionScreen';
-import NickNameScreen from './src/screens/NickNameScreen';
-import VoicePermissionScreen from './src/screens/VoicePermissionScreen';
-import AddFriendsScreen from './src/screens/AddFriendsScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
+import SignUpPhoneNumberScreen from './src/screens/auth/SignUpPhoneNumberScreen.js';
+import PhoneVerificationScreen from './src/screens/auth/PhoneVerificationScreen.js';
+import MicroPhonePermissionScreen from './src/screens/auth/MicroPhonePermissionScreen.js';
+import NickNameScreen from './src/screens/auth/NickNameScreen.js';
+import VoicePermissionScreen from './src/screens/auth/VoicePermissionScreen.js';
 
 import MainScreen from './src/screens/MainScreen';
+import AddFriendsScreen from './src/screens/AddFriendsScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 import AddMoreFriendsScreen from './src/screens/AddMoreFriendsScreen';
 import UserProfileScreen from './src/screens/UserProfileScreen';
 import FriendsScreen from './src/screens/FriendsScreen';
 import RequiredScreen from './src/screens/RequiredScreen';
-import RequiredFriendScreen from './src/screens/RequiredFriendScreen.js';
 import SendRequestFriendScreen from './src/screens/SendRequestFriendScreen';
 import RecordScreen from './src/screens/RecordScreen.js';
 import RecordingScreen from './src/screens/RecordingScreen.js';
@@ -73,7 +72,6 @@ const App = () => {
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="Friends" component={FriendsScreen} />
         <Stack.Screen name="Required" component={RequiredScreen} />
-        {/* <Stack.Screen name="RequiredFriend" component={RequiredFriendScreen} /> */}
         <Stack.Screen
           name="SendRequestFriend"
           component={SendRequestFriendScreen}
