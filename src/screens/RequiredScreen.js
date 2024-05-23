@@ -18,16 +18,26 @@ import requiredScreenStyle from '../styles/requiredScreenStyle';
 import Header from '../components/Header';
 import Search from '../components/Search';
 import ShareInvite from '../components/ShareInvite';
+import FriendItem from '../components/FriendItem';
 
 const RequiredScreen = () => {
   const navigation = useNavigation();
   const userName = 'Chan';
   const firstLetter = userName.charAt(0).toUpperCase();
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([
+    // {id: 1, name: 'Black Widow', username: 'Natasha Roamnoff'},
+    // {id: 2, name: 'Ivan Vanko', username: ''},
+    // {id: 3, name: 'Spider Man', username: 'Peter Parker'},
+    // {id: 4, name: 'Anoton Vanko', username: ''},
+  ]);
 
   const handleMain = () => {
     navigation.navigate('Main');
+  };
+
+  const handleUserProfile = friendId => {
+    navigation.navigate('UserProfile', {id: friendId});
   };
 
   const handleAddFriends = () => {
@@ -59,6 +69,26 @@ const RequiredScreen = () => {
     }
   };
 
+  const handleAddFriend = async friendId => {
+    try {
+      // const response = await axios.post('/api/friends/add', {
+      //   userId: userName,
+      //   friendId: friendId,
+      // });
+      // if (response.status === 200) {
+      //   console.log(`Added friend with id ${friendId}`);
+      // }
+      console.log(`Added friend with id ${friendId}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleDeleteFriend = friendId => {
+    setSearchResults(prevResults =>
+      prevResults.filter(friend => friend.id !== friendId),
+    );
+  };
+
   return (
     <View style={Common.container}>
       <Header onMain={handleMain} />
@@ -79,18 +109,33 @@ const RequiredScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={addFriendsScreenStyle.share}>
-          <View style={requiredScreenStyle.shareContainer}>
-            <View style={requiredScreenStyle.requestContainer}>
-              <Text style={requiredScreenStyle.requestHeaderText}>
-                보류 중인 요청 없음
-              </Text>
-              <Text style={requiredScreenStyle.requestSubText}>
-                보류 중인 요청이 없습니다.
-              </Text>
+
+        {searchResults.length > 0 ? (
+          <View style={requiredScreenStyle.friendContainer}>
+            {searchResults.map(result => (
+              <FriendItem
+                key={result.id}
+                friend={result}
+                onAdd={handleAddFriend}
+                onProfile={handleUserProfile}
+                onDelete={handleDeleteFriend} // 삭제 함수 전달
+              />
+            ))}
+          </View>
+        ) : (
+          <View style={addFriendsScreenStyle.share}>
+            <View style={requiredScreenStyle.shareContainer}>
+              <View style={requiredScreenStyle.requestContainer}>
+                <Text style={requiredScreenStyle.requestHeaderText}>
+                  보류 중인 요청 없음
+                </Text>
+                <Text style={requiredScreenStyle.requestSubText}>
+                  보류 중인 요청이 없습니다.
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
+        )}
       </ScrollView>
       <View style={addFriendsScreenStyle.recommand}>
         <View style={addFriendsScreenStyle.selectFooter}>
