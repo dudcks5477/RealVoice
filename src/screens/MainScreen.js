@@ -7,8 +7,26 @@ import axios from 'axios';
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
 
+import HeaderMain from '../components/HeaderMain';
+import RandomImageSection from '../components/RandomImageSection';
+
+const images = [
+  require('../assets/random/mountain.jpg'),
+  require('../assets/random/nature.jpg'),
+  require('../assets/random/river.jpg'),
+  require('../assets/random/sea.jpg'),
+  require('../assets/random/space.jpg'),
+  require('../assets/random/temple.jpg'),
+];
+
+const getRandomImage = () => {
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+};
+
 const MainScreen = () => {
   const [userName, setUserName] = useState('');
+  const [randomImage, setRandomImage] = useState(getRandomImage());
   const navigation = useNavigation();
 
   // useEffect(() => {
@@ -27,10 +45,6 @@ const MainScreen = () => {
 
   const firstLetter = userName.charAt(0).toUpperCase();
 
-  const handleAddFriends = () => {
-    navigation.navigate('AddFriends');
-  };
-
   const handleProfile = () => {
     navigation.navigate('Profile');
   };
@@ -41,45 +55,12 @@ const MainScreen = () => {
 
   return (
     <View style={Common.container}>
-      <View style={mainScreenStyle.header}>
-        <TouchableOpacity
-          style={mainScreenStyle.iconContainer}
-          onPress={handleAddFriends}>
-          <Icon name="group" style={mainScreenStyle.icon} />
-        </TouchableOpacity>
-        <Text style={mainScreenStyle.headerText}>RealVoice</Text>
-
-        {/* 사용자 정보 필요함 */}
-        <TouchableOpacity
-          style={mainScreenStyle.buttonContainer}
-          onPress={handleProfile}>
-          <View style={mainScreenStyle.circle}>
-            <Text style={mainScreenStyle.button}>{firstLetter}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      {/* 랜덤 이미지 발동 */}
-      <View style={mainScreenStyle.mainContainer}>
-        <Image
-          source={require('../assets/sample.jpg')}
-          style={mainScreenStyle.image}
-        />
-        <View style={mainScreenStyle.textContainer}>
-          {/* 닉네임에 따라 RealVoice가 닉네임으로 바뀜 */}
-          <Text style={mainScreenStyle.imageText}>헤이 {userName}님</Text>
-          <Text style={mainScreenStyle.subImageText}>
-            준비됐어요? RealVoice 할 시간입니다
-          </Text>
-          <TouchableOpacity
-            style={mainScreenStyle.voiceBtn}
-            onPress={handleRecord}>
-            <Text style={mainScreenStyle.buttonText}>
-              RealVoice를 포스트하세요.
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <HeaderMain firstLetter={firstLetter} handleProfile={handleProfile} />
+      <RandomImageSection
+        randomImage={randomImage}
+        userName={userName}
+        handleRecord={handleRecord}
+      />
     </View>
   );
 };
