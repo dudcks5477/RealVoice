@@ -1,15 +1,36 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Common from '../styles/common';
-import mainScreenStyle from '../styles/mainScreenStyle';
 import profileScreenStyle from '../styles/profileScreenStyle';
+
+import HeaderProfile from '../components/HeaderProfile';
+import IntroSection from '../components/IntroSection';
+import UserNameShare from '../components/UserNameShare';
+import UserMemorizeSection from '../components/UserMemorizeSection/UserMemorizeSection';
+
+const images = [
+  require('../assets/random/mountain.jpg'),
+  require('../assets/random/nature.jpg'),
+  require('../assets/random/river.jpg'),
+  require('../assets/random/sea.jpg'),
+  require('../assets/random/space.jpg'),
+  require('../assets/random/temple.jpg'),
+];
+
+const getRandomImage = () => {
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+};
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [randomImage, setRandomImage] = useState(getRandomImage());
+  const [nickname, setNickname] = useState('zerochan');
+  const [country, setCountry] = useState('KOREA'); // 추 후 국가 추가시 변경
+  const [joinYear, setJoinYear] = useState(0); // 가입 연도 상태 추가 (예시 0년 설정)
 
   const handleUploadMain = () => {
     navigation.navigate('UploadMain');
@@ -39,182 +60,19 @@ const ProfileScreen = () => {
 
   return (
     <View style={Common.container}>
-      <Image
-        source={require('../assets/sample.jpg')}
-        style={profileScreenStyle.image}
+      <Image source={randomImage} style={profileScreenStyle.image} />
+      <HeaderProfile
+        // 로직 고민 필요 (첫 가입자랑 기존 가입자 분리)
+        handleUploadMain={handleUploadMain}
+        handleEditProfile={handleEditProfile}
+        nickname={nickname}
       />
-      <View style={mainScreenStyle.header}>
-        <TouchableOpacity
-          style={mainScreenStyle.iconContainer}
-          onPress={handleUploadMain}>
-          <View style={profileScreenStyle.headerBack}>
-            <Icon name="arrow-back" style={profileScreenStyle.icon} />
-            <Text style={profileScreenStyle.headerText}>사용자명</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={mainScreenStyle.buttonContainer}
-          onPress={handleEditProfile}>
-          <Icon name="more-vert" style={profileScreenStyle.icon} />
-        </TouchableOpacity>
-      </View>
-      <View style={profileScreenStyle.bottomTextContainer}>
-        <Text style={profileScreenStyle.bottomText}>사용자명</Text>
-        <TouchableOpacity>
-          <Icon name="share" style={profileScreenStyle.iconShare} />
-        </TouchableOpacity>
-      </View>
-
-      <View style={profileScreenStyle.introContainer}>
-        <Text style={profileScreenStyle.introFix}>자기소개란</Text>
-        <Text style={profileScreenStyle.country}>KOREA</Text>
-        <Text style={profileScreenStyle.country}>
-          N년 전에 RealVoice에 가입했습니다.
-        </Text>
-      </View>
-      <View style={profileScreenStyle.userMemorizeContainer}>
-        <View style={profileScreenStyle.memorizeHeader}>
-          <Text style={profileScreenStyle.memorizeFix}>회원님의 추억들</Text>
-          <View style={profileScreenStyle.memorizeHeader}>
-            <Icon name="lock" style={profileScreenStyle.iconLock} />
-            <Text style={profileScreenStyle.country}>당신에게만 보입니다.</Text>
-          </View>
-        </View>
-        <View style={profileScreenStyle.calenderContainer}>
-          <Text style={profileScreenStyle.calenderHeader}>지난 20일들</Text>
-          <View style={profileScreenStyle.calenderBtnContainer}>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>10</Text>
-                <Icon
-                  name={isPlaying ? 'pause' : 'play-arrow'}
-                  style={profileScreenStyle.iconPlay}
-                />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>11</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>12</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>13</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>14</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={profileScreenStyle.calenderBtnContainer}>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>15</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>16</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>17</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>18</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>19</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={profileScreenStyle.calenderBtnContainer}>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>20</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>21</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>22</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>23</Text>
-                {/* <Icon name="play-arrow" style={profileScreenStyle.iconPlay} /> */}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>24</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={profileScreenStyle.calenderBtnContainer}>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>25</Text>
-                {/* <Icon name="play-arrow" style={profileScreenStyle.iconPlay} /> */}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>26</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>27</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>28</Text>
-                <Icon name="play-arrow" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={togglePlayPause}>
-              <View style={profileScreenStyle.calenderBtn}>
-                <Text style={profileScreenStyle.calenderDay}>29</Text>
-                <Icon name="circle" style={profileScreenStyle.iconPlay} />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+      <UserNameShare nickname={nickname} />
+      <IntroSection country={country} joinYear={joinYear} />
+      <UserMemorizeSection
+        isPlaying={isPlaying}
+        togglePlayPause={togglePlayPause}
+      />
     </View>
   );
 };
