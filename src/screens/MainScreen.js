@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 
 import Common from '../styles/common';
-import mainScreenStyle from '../styles/mainScreenStyle';
 
 import HeaderMain from '../components/HeaderMain';
 import RandomImageSection from '../components/RandomImageSection';
