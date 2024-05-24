@@ -17,7 +17,7 @@ const ProfileScreen = () => {
   return (
     <View style={Common.container}>
       <Image
-        source={require('../assets/sample.jpg')}
+        source={require('../assets/random/sea.jpg')}
         style={profileScreenStyle.image}
       />
       <View style={mainScreenStyle.header}>

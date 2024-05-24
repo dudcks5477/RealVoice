@@ -35,7 +35,7 @@ const RecordScreen = () => {
         </View>
         <View style={recordScreenStyle.container}>
           <Image
-            source={require('../assets/sample.jpg')}
+            source={require('../assets/random/sea.jpg')}
             style={recordScreenStyle.image}
           />
           <View style={recordScreenStyle.timerContainer}>
