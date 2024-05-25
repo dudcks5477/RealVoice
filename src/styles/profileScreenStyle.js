@@ -83,6 +83,11 @@ const profileScreenStyle = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 5,
+  },
   calenderBtnContainer: {
     paddingTop: 15,
     flexDirection: 'row',
@@ -91,10 +96,15 @@ const profileScreenStyle = StyleSheet.create({
     width: 43,
     height: 55,
     borderRadius: 15,
-    marginLeft: 24,
+    marginTop: 6,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  todayCircle: {
+    borderWidth: 4,
+    borderColor: '#000',
+    borderRadius: 15,
   },
   iconPlay: {
     opacity: 0.6,
