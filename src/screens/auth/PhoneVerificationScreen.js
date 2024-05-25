@@ -3,7 +3,7 @@ import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import Common from '../../styles/common';
-import signUpPhoneNumberScreenStyle from '../../styles/signUpPhoneNumberScreenStyle';
+import phoneVerificationScreenStyle from '../../styles/phoneVerificationScreenStyle';
 
 const PhoneVerificationScreen = () => {
   const [verificationCode, setVerificationCode] = useState('');
@@ -61,7 +61,7 @@ const PhoneVerificationScreen = () => {
       </Text>
       <View style={Common.content}>
         <TextInput
-          style={signUpPhoneNumberScreenStyle.phoneNumber}
+          style={phoneVerificationScreenStyle.phoneNumber}
           onChangeText={handleVerificationCodeChange}
           value={verificationCode}
           placeholder={placeholderText}
