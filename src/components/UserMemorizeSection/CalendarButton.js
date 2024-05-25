@@ -1,13 +1,32 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {TouchableOpacity, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import profileScreenStyle from '../../styles/profileScreenStyle';
 
-const CalendarButton = ({day, isPlaying, onPress}) => {
+const CalendarButton = ({day, isToday}) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  useEffect(() => {
+    let timer;
+    if (isPlaying) {
+      timer = setTimeout(() => {
+        setIsPlaying(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [isPlaying]);
+
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={profileScreenStyle.calenderBtn}>
-        {/* 오늘 날짜 로직이 없어서 표시가 안됨 */}
+    <TouchableOpacity onPress={togglePlayPause}>
+      <View
+        style={[
+          profileScreenStyle.calenderBtn,
+          isToday && profileScreenStyle.todayCircle,
+        ]}>
         <Text style={profileScreenStyle.calenderDay}>{day}</Text>
         <Icon
           name={isPlaying ? 'pause' : 'play-arrow'}

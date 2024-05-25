@@ -1,61 +1,59 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {Text, View} from 'react-native';
+import profileScreenStyle from '../../styles/profileScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CalendarButton from './CalendarButton';
-import profileScreenStyle from '../../styles/profileScreenStyle';
+
+const getLast20Days = () => {
+  const dates = [];
+  const today = new Date(2024, 4, 21); // 5월은 JavaScript에서 4로 표기 (0부터 시작하기 때문)
+  for (let i = 0; i < 20; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+    dates.push(date);
+  }
+  return dates;
+};
+
+const splitDatesIntoRows = dates => {
+  const rows = [];
+  for (let i = 0; i < dates.length; i += 5) {
+    rows.push(dates.slice(i, i + 5));
+  }
+  return rows;
+};
 
 const UserMemorizeSection = ({isPlaying, togglePlayPause}) => {
+  const dates = getLast20Days();
+  const rows = splitDatesIntoRows(dates);
+  const today = new Date().getDate();
+
   return (
     <View style={profileScreenStyle.userMemorizeContainer}>
       <View style={profileScreenStyle.memorizeHeader}>
         <Text style={profileScreenStyle.memorizeFix}>회원님의 추억들</Text>
         <View style={profileScreenStyle.memorizeHeader}>
           <Icon name="lock" style={profileScreenStyle.iconLock} />
-          <Text style={profileScreenStyle.country}>당신에게만 보입니다</Text>
+          <Text style={profileScreenStyle.country}>당신에게만 보입니다.</Text>
         </View>
       </View>
       <View style={profileScreenStyle.calenderContainer}>
         <Text style={profileScreenStyle.calenderHeader}>지난 20일들</Text>
-        <View style={profileScreenStyle.calenderBtnContainer}>
-          {[10, 11, 12, 13, 14].map(day => (
-            <CalendarButton
-              key={day}
-              day={day}
-              isPlaying={isPlaying}
-              onPress={togglePlayPause}
-            />
-          ))}
-        </View>
-        <View style={profileScreenStyle.calenderBtnContainer}>
-          {[15, 16, 17, 18, 19].map(day => (
-            <CalendarButton
-              key={day}
-              day={day}
-              isPlaying={isPlaying}
-              onPress={togglePlayPause}
-            />
-          ))}
-        </View>
-        <View style={profileScreenStyle.calenderBtnContainer}>
-          {[20, 21, 22, 23, 24].map(day => (
-            <CalendarButton
-              key={day}
-              day={day}
-              isPlaying={isPlaying}
-              onPress={togglePlayPause}
-            />
-          ))}
-        </View>
-        <View style={profileScreenStyle.calenderBtnContainer}>
-          {[25, 26, 27, 28, 29].map(day => (
-            <CalendarButton
-              key={day}
-              day={day}
-              isPlaying={isPlaying}
-              onPress={togglePlayPause}
-            />
-          ))}
-        </View>
+        {rows.map((row, rowIndex) => (
+          <View key={rowIndex} style={profileScreenStyle.row}>
+            {row.map((date, colIndex) => {
+              return (
+                <CalendarButton
+                  key={colIndex}
+                  day={date.getDate()}
+                  isPlaying={isPlaying}
+                  onPress={togglePlayPause}
+                  isToday={date.getDate() === today} // 오늘 날짜 확인
+                />
+              );
+            })}
+          </View>
+        ))}
       </View>
     </View>
   );
