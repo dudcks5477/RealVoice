@@ -37,12 +37,14 @@ const profileEditDetailScreenStyle = StyleSheet.create({
   },
   userName: {
     fontSize: 13,
-    marginBottom: 3,
+    marginTop: 10,
+    marginLeft: 2,
     color: '#606060',
     fontWeight: 'bold',
   },
   userNameInput: {
     fontSize: 15,
+    marginTop: -10,
     fontWeight: 'bold',
     color: '#fff',
   },
