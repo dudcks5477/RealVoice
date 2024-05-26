@@ -9,9 +9,13 @@ import profileScreenStyle from '../styles/profileScreenStyle';
 import alertSettingScreenStyle from '../styles/alertSettingScreenStyle';
 import privcayScreenStyle from '../styles/privacyScreenStyle';
 
+import AlertSettingItem from '../components/AlertSettingItem';
+
 const PrivacyScreen = () => {
   const navigation = useNavigation();
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabledWorld, setIsEnabledWorld] = useState(false);
+  const [isEnabledPhone, setIsEnabledPhone] = useState(false);
+  const [isEnabledSync, setIsEnabledSync] = useState(false);
 
   const handleEditProfile = () => {
     navigation.navigate('EditProfile');
@@ -21,10 +25,6 @@ const PrivacyScreen = () => {
   };
   const handleHided = () => {
     navigation.navigate('Hided');
-  };
-
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
   };
 
   return (
@@ -61,62 +61,35 @@ const PrivacyScreen = () => {
           </View>
         </TouchableOpacity>
         <View style={privcayScreenStyle.btnContainer}>
-          <View style={privcayScreenStyle.slideContainer}>
-            <View style={alertSettingScreenStyle.iconTextContainer}>
-              <Icon name="public" style={alertSettingScreenStyle.icon} />
-              <Text style={alertSettingScreenStyle.alternateText}>
-                We are the world
-              </Text>
-            </View>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-          </View>
+          <AlertSettingItem
+            iconName="public"
+            text="We are the world"
+            value={isEnabledWorld}
+            onValueChange={setIsEnabledWorld}
+          />
           <Text style={privcayScreenStyle.btnDescript}>
             활성화하면 전 세계 RealVoice를 서로 확인할 수 있어요.
           </Text>
         </View>
         <View style={privcayScreenStyle.btnContainer}>
-          <View style={privcayScreenStyle.slideContainer}>
-            <View style={alertSettingScreenStyle.iconTextContainer}>
-              <Icon name="phone-android" style={alertSettingScreenStyle.icon} />
-              <Text style={alertSettingScreenStyle.alternateText}>
-                내 전화번호로 찾기
-              </Text>
-            </View>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-          </View>
+          <AlertSettingItem
+            iconName="phone-android"
+            text="내 전화번호로 찾기"
+            value={isEnabledPhone}
+            onValueChange={setIsEnabledPhone}
+          />
           <Text style={privcayScreenStyle.btnDescript}>
             다른 사람이 내 휴대전화 번호로 나를 찾을 수 있도록 허용하면{'\n'}
             친구들이 회원님의 휴대전화 번호로 회원님을 찾을 수 있습니다.
           </Text>
         </View>
         <View style={privcayScreenStyle.btnContainer}>
-          <View style={privcayScreenStyle.slideContainer}>
-            <View style={alertSettingScreenStyle.iconTextContainer}>
-              <Icon name="sync" style={alertSettingScreenStyle.icon} />
-              <Text style={alertSettingScreenStyle.alternateText}>
-                연락처 동기화
-              </Text>
-            </View>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-          </View>
+          <AlertSettingItem
+            iconName="sync"
+            text="연락처 동기화"
+            value={isEnabledSync}
+            onValueChange={setIsEnabledSync}
+          />
           <Text style={privcayScreenStyle.btnDescript}>
             연락처 동기화는 휴대전화 연락처에서 친구를 추천해 줍니다.
           </Text>
