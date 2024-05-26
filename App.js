@@ -22,7 +22,6 @@ import RecordingScreen from './src/screens/RecordingScreen.js';
 import UploadMainScreen from './src/screens/UploadMainScreen.js';
 import EditProfileScreen from './src/screens/EditProfileScreen.js';
 import ProfileEditDetailScreen from './src/screens/ProfileEditDetailScreen.js';
-import ChangeProfileScreen from './src/screens/ChangeProfileScreen.js';
 import MemorySettingScreen from './src/screens/MemorySettingScreen.js';
 import AlertSettingScreen from './src/screens/AlertSettingScreen.js';
 import PrivacyScreen from './src/screens/PrivacyScreen.js';
@@ -80,7 +79,6 @@ const App = () => {
           name="ProfileEditDetail"
           component={ProfileEditDetailScreen}
         />
-        <Stack.Screen name="ChangeProfile" component={ChangeProfileScreen} />
         <Stack.Screen name="MemorySetting" component={MemorySettingScreen} />
         <Stack.Screen name="AlertSetting" component={AlertSettingScreen} />
         <Stack.Screen name="Privacy" component={PrivacyScreen} />
