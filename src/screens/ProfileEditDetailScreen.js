@@ -1,27 +1,92 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Alert,
+  TextInput,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import profileScreenStyle from '../styles/profileScreenStyle';
 import profileEditDetailScreenStyle from '../styles/profileEditDetailScreenStyle';
 
+const images = [
+  require('../assets/random/mountain.jpg'),
+  require('../assets/random/nature.jpg'),
+  require('../assets/random/river.jpg'),
+  require('../assets/random/sea.jpg'),
+  require('../assets/random/space.jpg'),
+  require('../assets/random/temple.jpg'),
+];
+
+const getRandomImage = () => {
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+};
+
 const ProfileEditDetailScreen = () => {
+  const [randomImage, setRandomImage] = useState(getRandomImage());
+  const [profileImage, setProfileImage] = useState(null);
+  const [username, setUsername] = useState('zerochan');
+  const [realName, setRealName] = useState('김영찬');
+  const [bio, setBio] = useState('당신의 진실한 목소리를 들려주세요.');
+  const [location, setLocation] = useState('KOREA');
   const navigation = useNavigation();
+
+  const handleChangeProfile = () => {
+    Alert.alert(
+      '프로필 사진 업데이트',
+      '사진을 선택하세요',
+      [
+        {
+          text: '카메라',
+          onPress: () =>
+            launchCamera({mediaType: 'photo'}, response => {
+              if (response.didCancel) {
+                console.log('User canceled image pikcer');
+              } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+              } else {
+                setProfileImage(response.assets[0].uri);
+              }
+            }),
+        },
+        {
+          text: '갤러리',
+          onPress: () =>
+            launchImageLibrary({mediaType: 'photo'}, response => {
+              if (response.didCancel) {
+                console.log('User canceled image picker');
+              } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+              } else {
+                setProfileImage(response.assets[0].uri);
+              }
+            }),
+        },
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+  };
 
   const handleEditProfile = () => {
     navigation.navigate('EditProfile');
-  };
-  const handleChangeProfile = () => {
-    navigation.navigate('ChangeProfile');
   };
 
   return (
     <View style={Common.container}>
       <Image
-        source={require('../assets/random/sea.jpg')}
+        source={profileImage ? {uri: profileImage} : randomImage}
         style={profileScreenStyle.image}
       />
       <View style={mainScreenStyle.header}>
@@ -47,29 +112,39 @@ const ProfileEditDetailScreen = () => {
       <View style={profileEditDetailScreenStyle.InformationContainer}>
         {/* 닉네임 */}
         <View style={profileEditDetailScreenStyle.nickname}>
-          <Text style={profileEditDetailScreenStyle.userName}>이름</Text>
-          <Text style={profileEditDetailScreenStyle.userNameInput}>
-            RealVoice
-          </Text>
+          <Text style={profileEditDetailScreenStyle.userName}>사용자명</Text>
+          <TextInput
+            style={profileEditDetailScreenStyle.userNameInput}
+            value={username}
+            onChangeText={setUsername}
+          />
         </View>
         {/* 사용자 이름 */}
         <View style={profileEditDetailScreenStyle.nickname}>
           <Text style={profileEditDetailScreenStyle.userName}>사용자 이름</Text>
-          <Text style={profileEditDetailScreenStyle.userNameInput}>
-            realCompany
-          </Text>
+          <TextInput
+            style={profileEditDetailScreenStyle.userNameInput}
+            value={realName}
+            onChangeText={setRealName}
+          />
         </View>
         {/* 소개 */}
         <View style={profileEditDetailScreenStyle.nickname}>
           <Text style={profileEditDetailScreenStyle.userName}>소개</Text>
-          <Text style={profileEditDetailScreenStyle.userNameInput}>
-            당신의 진실한 목소리를 들려주세요.
-          </Text>
+          <TextInput
+            style={profileEditDetailScreenStyle.userNameInput}
+            value={bio}
+            onChangeText={setBio}
+          />
         </View>
         {/* 위치 */}
         <View style={profileEditDetailScreenStyle.nickname}>
           <Text style={profileEditDetailScreenStyle.userName}>위치</Text>
-          <Text style={profileEditDetailScreenStyle.userNameInput}>KOREA</Text>
+          <TextInput
+            style={profileEditDetailScreenStyle.userNameInput}
+            value={location}
+            onChange={setLocation}
+          />
         </View>
         <TouchableOpacity
           style={profileEditDetailScreenStyle.saveBtnContainer}
