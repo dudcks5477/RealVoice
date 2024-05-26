@@ -37,7 +37,7 @@ const MemorySettingScreenStyle = StyleSheet.create({
     alignItems: 'center',
   },
   disabledBtnText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 'bold',
     color: '#dd1b1b',
   },
