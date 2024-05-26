@@ -1,7 +1,9 @@
-import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, Share, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -9,9 +11,23 @@ import profileScreenStyle from '../styles/profileScreenStyle';
 import editProfileScreenStyle from '../styles/editProfileScreenStyle';
 
 const EditProfileScreen = () => {
+  // const [userName, setUserName] = useState('');
   const navigation = useNavigation();
-  const userName = 'Chan';
+  const userName = 'zerochan';
   const firstLetter = userName.charAt(0).toUpperCase();
+
+  // useEffect(() => {
+  //   axios
+  //     .get('/api/user/profile')
+  //     .then(response => {
+  //       const {userName} = response.data;
+  //       setUserName(userName);
+  //     })
+  //     .catch(error => {
+  //       console.error('Failed to fetch user profile:', error);
+  //       // Alert.alert('사용자 정보를 가져오는데 문제가 발생했습니다.');
+  //     });
+  // }, []);
 
   const handleProfile = () => {
     navigation.navigate('Profile');
@@ -41,6 +57,36 @@ const EditProfileScreen = () => {
     navigation.navigate('Information');
   };
 
+  const handleShare = async () => {
+    const shareOptions = {
+      message: '당신의 RealVoice를 친구들에게 공유하세요', // 공유할 메시지
+    };
+
+    try {
+      const result = await Share.share(shareOptions);
+      console.log(result.action);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('userToken');
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Splash'}],
+      });
+    } catch (error) {
+      console.error('Fail to logout:', error);
+    }
+  };
+
+  const handleReview = () => {
+    const url = 'https://play.google.com/store/app/details?id=com.yourappname';
+    Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+  };
+
   return (
     <View style={Common.container}>
       <View style={mainScreenStyle.header}>
@@ -49,7 +95,7 @@ const EditProfileScreen = () => {
           onPress={handleProfile}>
           <View style={profileScreenStyle.headerBack}>
             <Icon name="arrow-back" style={profileScreenStyle.icon} />
-            <Text style={profileScreenStyle.headerText}>사용자명</Text>
+            <Text style={profileScreenStyle.headerText}>{userName}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -63,7 +109,7 @@ const EditProfileScreen = () => {
             </View>
           </View>
           <View>
-            <Text style={editProfileScreenStyle.nickname}>닉네임</Text>
+            <Text style={editProfileScreenStyle.nickname}>{userName}</Text>
             <Text style={editProfileScreenStyle.username}>사용자이름</Text>
           </View>
         </TouchableOpacity>
@@ -133,7 +179,9 @@ const EditProfileScreen = () => {
         {/* 정보 */}
         <View style={editProfileScreenStyle.actionContainer}>
           <Text style={editProfileScreenStyle.containerText}>정보</Text>
-          <TouchableOpacity style={editProfileScreenStyle.settingAlertBtn}>
+          <TouchableOpacity
+            style={editProfileScreenStyle.settingAlertBtn}
+            onPress={handleShare}>
             <View style={mainScreenStyle.buttonContainer}>
               <Icon name="share" style={editProfileScreenStyle.iconCalendar} />
             </View>
@@ -141,7 +189,9 @@ const EditProfileScreen = () => {
               RealVoice 공유하기
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={editProfileScreenStyle.settingBtn}>
+          <TouchableOpacity
+            style={editProfileScreenStyle.settingBtn}
+            onPress={handleReview}>
             <View style={mainScreenStyle.buttonContainer}>
               <Icon
                 name="star-outline"
@@ -175,7 +225,9 @@ const EditProfileScreen = () => {
             <Text style={editProfileScreenStyle.nickname}>정보</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={editProfileScreenStyle.logoutContainer}>
+        <TouchableOpacity
+          style={editProfileScreenStyle.logoutContainer}
+          onPress={handleLogout}>
           <Text style={editProfileScreenStyle.logoutText}>로그아웃</Text>
         </TouchableOpacity>
         <Text style={editProfileScreenStyle.version}>Version 0.1</Text>
