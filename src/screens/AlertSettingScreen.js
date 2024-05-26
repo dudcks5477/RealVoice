@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Switch} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 
@@ -10,17 +10,37 @@ import memorySettingScreenStyle from '../styles/memorySettingScreenStyle';
 import alertSettingScreenStyle from '../styles/alertSettingScreenStyle';
 import profileEditDetailScreenStyle from '../styles/profileEditDetailScreenStyle';
 
+import AlertSettingItem from '../components/AlertSettingItem';
+
 const AlertSettingScreen = () => {
   const navigation = useNavigation();
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabledSpeakingTag, setIsEnabledSpeakingTag] = useState(true);
+  const [isEnabledFriendRequest, setIsEnabledFriendRequest] = useState(true);
+  const [isEnabledRealComments, setIsEnabledRealComments] = useState(true);
+  const [isEnabledFriendPosts, setIsEnabledFriendPosts] = useState(true);
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
 
   const handleEditProfile = () => {
     navigation.navigate('EditProfile');
   };
 
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-  };
+  useEffect(() => {
+    if (
+      isEnabledSpeakingTag &&
+      isEnabledFriendRequest &&
+      isEnabledRealComments &&
+      isEnabledFriendPosts
+    ) {
+      setIsSaveEnabled(false);
+    } else {
+      setIsSaveEnabled(true);
+    }
+  }, [
+    isEnabledSpeakingTag,
+    isEnabledFriendRequest,
+    isEnabledRealComments,
+    isEnabledFriendPosts,
+  ]);
 
   return (
     <View style={Common.container}>
@@ -41,73 +61,37 @@ const AlertSettingScreen = () => {
         </Text>
       </View>
       <View style={alertSettingScreenStyle.InformationContainer}>
-        <View style={alertSettingScreenStyle.slideContainer}>
-          <View style={alertSettingScreenStyle.iconTextContainer}>
-            <Icon name="alternate-email" style={alertSettingScreenStyle.icon} />
-            <Text style={alertSettingScreenStyle.alternateText}>
-              말하기와 태그
-            </Text>
-          </View>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
-        <View style={alertSettingScreenStyle.slideContainer}>
-          <View style={alertSettingScreenStyle.iconTextContainer}>
-            <Icon name="people" style={alertSettingScreenStyle.icon} />
-            <Text style={alertSettingScreenStyle.alternateText}>친구 요청</Text>
-          </View>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
-        <View style={alertSettingScreenStyle.slideContainer}>
-          <View style={alertSettingScreenStyle.iconTextContainer}>
-            <Icon
-              name="record-voice-over"
-              style={alertSettingScreenStyle.icon}
-            />
-            <Text style={alertSettingScreenStyle.alternateText}>
-              RealComments
-            </Text>
-          </View>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
-        <View style={alertSettingScreenStyle.slideContainer}>
-          <View style={alertSettingScreenStyle.iconTextContainer}>
-            <Icon
-              name="local-post-office"
-              style={alertSettingScreenStyle.icon}
-            />
-            <Text style={alertSettingScreenStyle.alternateText}>
-              친구들 포스트
-            </Text>
-          </View>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
+        <AlertSettingItem
+          iconName="alternate-email"
+          text="말하기와 태그"
+          value={isEnabledSpeakingTag}
+          onValueChange={setIsEnabledSpeakingTag}
+        />
+        <AlertSettingItem
+          iconName="people"
+          text="친구 요청"
+          value={isEnabledFriendRequest}
+          onValueChange={setIsEnabledFriendRequest}
+        />
+        <AlertSettingItem
+          iconName="record-voice-over"
+          text="RealComments"
+          value={isEnabledRealComments}
+          onValueChange={setIsEnabledRealComments}
+        />
+        <AlertSettingItem
+          iconName="local-post-office"
+          text="친구들 포스트"
+          value={isEnabledFriendPosts}
+          onValueChange={setIsEnabledFriendPosts}
+        />
         <TouchableOpacity
-          style={alertSettingScreenStyle.saveBtnContainer}
-          onPress={handleEditProfile}>
+          style={[
+            alertSettingScreenStyle.saveBtnContainer,
+            {backgroundColor: isSaveEnabled ? '#fff' : '#606060'},
+          ]}
+          onPress={handleEditProfile}
+          disabled={!isSaveEnabled}>
           <Text style={profileEditDetailScreenStyle.saveBtnText}>저장</Text>
         </TouchableOpacity>
       </View>
