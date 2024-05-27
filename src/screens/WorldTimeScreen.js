@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -9,9 +9,22 @@ import profileScreenStyle from '../styles/profileScreenStyle';
 import editProfileScreenStyle from '../styles/editProfileScreenStyle';
 import worldTimeScreenStyle from '../styles/worldTimeScreenStyle';
 
-const WorldTimeScreen = () => {
+import {countryToRegionMap} from '../utils/countryToRegionMap';
+
+const WorldTimeScreen = ({route}) => {
   const navigation = useNavigation();
   const [selectedTimeZone, setSelectedTimeZone] = useState(null);
+  const [isSaveButtonEnabled, setIsSaveButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    // 하드코딩으로 KR로 설정 추후 SignUpPhone에서 국가코드 받아와야함
+    const countryCode = route.params?.countryCode || 'KR';
+    const region = countryToRegionMap[countryCode];
+    if (region) {
+      setSelectedTimeZone(region);
+      setIsSaveButtonEnabled(false);
+    }
+  }, [route.params?.countryCode]);
 
   const handleEditProfile = () => {
     navigation.navigate('EditProfile');
@@ -19,6 +32,12 @@ const WorldTimeScreen = () => {
 
   const handleTimeZoneSelection = timeZone => {
     setSelectedTimeZone(timeZone);
+    setIsSaveButtonEnabled(true);
+  };
+
+  const handleSave = () => {
+    console.log(`Seleted Time Zone: ${selectedTimeZone}`);
+    // 저장 로직 추가 필요
   };
 
   return (
@@ -85,7 +104,13 @@ const WorldTimeScreen = () => {
             <Text style={editProfileScreenStyle.nickname}>동아시아</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={worldTimeScreenStyle.logoutContainer}>
+        <TouchableOpacity
+          style={[
+            worldTimeScreenStyle.logoutContainer,
+            {backgroundColor: isSaveButtonEnabled ? 'white' : '#606060'},
+          ]}
+          onPress={handleSave}
+          disabled={!isSaveButtonEnabled}>
           <Text style={worldTimeScreenStyle.logoutText}>저장</Text>
         </TouchableOpacity>
       </View>
