@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import SplashScreen from './src/components/SplashScreen';
 import SignUpPhoneNumberScreen from './src/screens/auth/SignUpPhoneNumberScreen.js';
@@ -36,9 +37,28 @@ import InformationScreen from './src/screens/InformationScreen.js';
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [initialRoute, setInitialRoute] = useState('Splash');
+
+  useEffect(() => {
+    const checkSignUpStatus = async () => {
+      try {
+        const isSignedUp = await AsyncStorage.getItem('isSignedUp');
+        if (isSignedUp === 'true') {
+          setInitialRoute('MainScreen');
+        } else {
+          console.log('회원가입이 필요한 사용자입니다.');
+        }
+      } catch (error) {
+        console.error('AsyncStorage error: ', error);
+      }
+    };
+    checkSignUpStatus();
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName={initialRoute}
         screenOptions={{
           headerShown: false,
         }}>
