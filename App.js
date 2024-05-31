@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {RecordingProvider} from './src/services/RecordingContext.js';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {auth} from './src/services/firebase.js';
+import {onAuthStateChanged} from 'firebase/auth';
+import {v4 as uuidv4} from 'uuid';
+import * as Random from 'expo-random';
 
 import SplashScreen from './src/components/SplashScreen';
 import SignUpPhoneNumberScreen from './src/screens/auth/SignUpPhoneNumberScreen.js';
@@ -38,22 +43,51 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const [initialRoute, setInitialRoute] = useState('Splash');
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userData, setUserData] = useState({
+    uuid: '',
+    phoneNumber: '',
+    callingCode: '82',
+    nickName: '',
+  });
 
   useEffect(() => {
-    const checkSignUpStatus = async () => {
-      try {
-        const isSignedUp = await AsyncStorage.getItem('isSignedUp');
-        if (isSignedUp === 'true') {
+    const generateUUID = async () => {
+      const randomBytes = await Random.getRandomBytesAsync(16);
+      const uuid = uuidv4({random: randomBytes});
+      setUserData(prevState => ({
+        ...prevState,
+        uuid: uuid,
+      }));
+    };
+    generateUUID();
+
+    const checkAuthStatus = async () => {
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          setIsSignedIn(true);
           setInitialRoute('MainScreen');
         } else {
-          console.log('회원가입이 필요한 사용자입니다.');
+          setIsSignedIn(false);
+          setInitialRoute('SignUpPhoneNumber');
         }
-      } catch (error) {
-        console.error('AsyncStorage error: ', error);
-      }
+      });
     };
-    checkSignUpStatus();
+    checkAuthStatus();
   }, []);
+  // try {
+  //   const isSignedUp = await AsyncStorage.getItem('isSignedUp');
+  //   if (isSignedUp === 'true') {
+  //     setInitialRoute('MainScreen');
+  //   } else {
+  //     console.log('회원가입이 필요한 사용자입니다.');
+  //   }
+  // } catch (error) {
+  //   console.error('AsyncStorage error: ', error);
+  // }
+  //   };
+  //   checkSignUpStatus();
+  // }, []);
 
   return (
     <NavigationContainer>
@@ -62,11 +96,16 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        {/* <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen
-          name="SignUpPhoneNumber"
-          component={SignUpPhoneNumberScreen}
-        />
+        <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="SignUpPhoneNumber">
+          {props => (
+            <SignUpPhoneNumberScreen
+              {...props}
+              userData={userData}
+              setUserData={setUserData}
+            />
+          )}
+        </Stack.Screen>
         <Stack.Screen
           name="PhoneVerification"
           component={PhoneVerificationScreen}
@@ -75,11 +114,18 @@ const App = () => {
           name="MicroPhonePermission"
           component={MicroPhonePermissionScreen}
         />
-        <Stack.Screen name="NickName" component={NickNameScreen} />
-        <Stack.Screen
-          name="VoicePermission"
-          component={VoicePermissionScreen}
-        /> */}
+        <Stack.Screen name="NickName">
+          {props => (
+            <NickNameScreen
+              {...props}
+              userData={userData}
+              setUserData={setUserData}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="VoicePermission">
+          {props => <VoicePermissionScreen {...props} userData={userData} />}
+        </Stack.Screen>
         <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="Record" component={RecordScreen} />
         <Stack.Screen name="Recording" component={RecordingScreen} />
