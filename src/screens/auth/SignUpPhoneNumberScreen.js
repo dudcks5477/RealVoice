@@ -1,19 +1,12 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Alert,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
+import {View, Text, TextInput, Alert, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import CountryPicker from 'react-native-country-picker-modal';
 import Common from '../../styles/common';
 import signUpPhoneNumberScreenStyle from '../../styles/signUpPhoneNumberScreenStyle';
 
-const SignUpPhoneNumberScreen = () => {
+const SignUpPhoneNumberScreen = ({userData, setUserData}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryCode, setCountryCode] = useState('KR');
   const [callingCode, setCallingCode] = useState('+82');
@@ -23,27 +16,36 @@ const SignUpPhoneNumberScreen = () => {
   const handlePhoneNumberChange = text => {
     // 숫자 이외의 문자는 모두 제거
     const cleanText = text.replace(/[^0-9]/g, '');
+    setUserData(prevState => ({
+      ...prevState,
+      phoneNumber: cleanText,
+    }));
     setPhoneNumber(cleanText);
     setIsPhoneNumberValid(cleanText.length > 0);
   };
 
   const handleCountrySelect = country => {
+    setUserData(prevState => ({
+      ...prevState,
+      callingCode: `+${country.callingCode[0]}`,
+    }));
     setCountryCode(country.cca2);
-    setCallingCode(country.callingCode[0]);
-    setPhoneNumber('');
-    setIsPhoneNumberValid(false);
+    // setCallingCode(country.callingCode[0]);
+    // setPhoneNumber('');
+    // setIsPhoneNumberValid(false);
   };
 
   const handleSignUp = () => {
-    if (phoneNumber.trim() === '') {
+    if (userData.phoneNumber.trim() === '') {
       Alert.alert('전화번호를 입력하세요.');
       return;
     }
-    const verificationCode = '123456';
+    // const verificationCode = '123456';
     // API 호출
     // axios
-    //   .post('/api/users', {
-    //     phoneNumber: `${countryCode}${phoneNumber}`,
+    //   .post('http://10.0.2.2:8080/user/voice/register', {
+    //     callingCode: `${countryCode}`,
+    //     phoneNumber: `${phoneNumber}`,
     //     verificationCode,
     //   })
     //   .then(response => {
@@ -61,7 +63,6 @@ const SignUpPhoneNumberScreen = () => {
     <View style={Common.container}>
       <Text style={Common.headerText}>전화번호가 어떻게 되세요?</Text>
       <View style={signUpPhoneNumberScreenStyle.content}>
-        {/* 국가 코드 및 번호 선택할 수 있는 로직 작성 */}
         <View style={signUpPhoneNumberScreenStyle.phoneNumberContainer}>
           <CountryPicker
             countryCode={countryCode}

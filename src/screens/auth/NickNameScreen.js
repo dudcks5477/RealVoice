@@ -5,13 +5,17 @@ import axios from 'axios';
 import Common from '../../styles/common';
 import nickNameScreenStyle from '../../styles/nickNameScreenStyle';
 
-const NickNameScreen = () => {
-  const [nickName, setNickName] = useState('');
+const NickNameScreen = ({userData, setUserData}) => {
+  const [nickName, setNickName] = useState(userData.nickName);
   const navigation = useNavigation();
 
   const handleNickNameChange = text => {
     if (isEnglish.test(text) || text === '') {
       setNickName(text);
+      setUserData(prevState => ({
+        ...prevState,
+        nickName: text,
+      }));
     } else {
       Alert.alert('소문자로만 입력해주세요.');
     }
@@ -21,18 +25,19 @@ const NickNameScreen = () => {
   const isEnglish = /^[a-z]+$/;
 
   const handleNextPress = () => {
-    axios
-      .post('/api/nickname', {
-        nickName,
-      })
-      .then(response => {
-        console.log('닉네임이 성공적으로 저장되었습니다.');
-        navigation.navigate('VoicePermission');
-      })
-      .catch(error => {
-        console.error('닉네임 저장 중 에러 발생:', error);
-        Alert.alert('알파벳 두 개 이상 입력해주세요.');
-      });
+    // axios
+    //   .post('http://10.0.2.2:8080/user/voice/register', {
+    //     nickName,
+    //   })
+    //   .then(response => {
+    //     console.log('닉네임이 성공적으로 저장되었습니다.');
+    //     navigation.navigate('VoicePermission');
+    //   })
+    //   .catch(error => {
+    //     console.error('닉네임 저장 중 에러 발생:', error);
+    //     Alert.alert('알파벳 두 개 이상 입력해주세요.');
+    //   });
+    navigation.navigate('VoicePermission');
   };
 
   return (

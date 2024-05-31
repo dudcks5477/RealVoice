@@ -7,11 +7,11 @@ import {
   Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import axios from 'axios';
 import Common from '../../styles/common';
 import voicePermissionScreenStyle from '../../styles/voicePermissionScreenStyle';
 
-const VoicePermissionScreen = () => {
+const VoicePermissionScreen = ({userData}) => {
   const [isAllowPressed, setIsAllowPressed] = useState(false);
   const navigation = useNavigation();
 
@@ -35,8 +35,17 @@ const VoicePermissionScreen = () => {
       } catch (err) {
         console.warn(err);
       }
-      setIsAllowPressed(true);
-      handleMain();
+    }
+    try {
+      await axios.post('http://10.0.2.2:8080/user/voice/register', {
+        callingCode: userData.callingCode,
+        phoneNumber: userData.phoneNumber,
+        nickName: userData.nickName,
+      });
+      console.log('유저 데이터가 성공적으로 저장되었습니다.');
+      navigation.navigate('Main');
+    } catch (error) {
+      console.error('유저 데이터 저장 중 에러 발생:', error);
     }
   };
 
@@ -45,9 +54,9 @@ const VoicePermissionScreen = () => {
     navigation.navigate('Main');
   };
 
-  const handleMain = () => {
-    navigation.navigate('Main');
-  };
+  // const handleMain = () => {
+  //   navigation.navigate('Main');
+  // };
 
   const allowButtonStyle = isAllowPressed ? {backgroundColor: '#2a55ee'} : null;
 

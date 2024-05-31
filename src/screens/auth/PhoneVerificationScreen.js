@@ -21,23 +21,24 @@ const PhoneVerificationScreen = () => {
       return;
     }
     // api 호출
-    axios
-      .post('/api/users', {
-        verificationCode,
-      })
-      .then(response => {
-        console.log('인증번호가 성공적으로 저장되었습니다.');
-        navigation.navigate('MicroPhonePermission');
-      })
-      .catch(error => {
-        console.error('인증번호 저장 중 에러 발생:', error);
-        Alert.alert('인증번호가 올바르지 않습니다.');
-      });
+    // axios
+    //   .post('http://10.0.2.2:8080/user/voice/register', {
+    //     verificationCode,
+    //   })
+    //   .then(response => {
+    //     console.log('인증번호가 성공적으로 저장되었습니다.');
+    //     navigation.navigate('MicroPhonePermission');
+    //   })
+    //   .catch(error => {
+    //     console.error('인증번호 저장 중 에러 발생:', error);
+    //     Alert.alert('인증번호가 올바르지 않습니다.');
+    //   });
+    navigation.navigate('MicroPhonePermission');
   };
 
   const handleResendVerificationCode = () => {
     axios
-      .post('api/resend-verification')
+      .post('http://10.0.2.2:8080/user/voice/register')
       .then(response => {
         Alert.alert('인증번호를 재전송하였습니다.');
         console.log('인증번호를 다시 전송합니다.');
