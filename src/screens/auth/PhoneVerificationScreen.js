@@ -20,19 +20,6 @@ const PhoneVerificationScreen = () => {
       Alert.alert('인증 코드는 6자리여야 합니다.');
       return;
     }
-    // api 호출
-    // axios
-    //   .post('http://10.0.2.2:8080/user/voice/register', {
-    //     verificationCode,
-    //   })
-    //   .then(response => {
-    //     console.log('인증번호가 성공적으로 저장되었습니다.');
-    //     navigation.navigate('MicroPhonePermission');
-    //   })
-    //   .catch(error => {
-    //     console.error('인증번호 저장 중 에러 발생:', error);
-    //     Alert.alert('인증번호가 올바르지 않습니다.');
-    //   });
     navigation.navigate('MicroPhonePermission');
   };
 

@@ -1,43 +1,52 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 import Common from '../../styles/common';
 import nickNameScreenStyle from '../../styles/nickNameScreenStyle';
 
 const NickNameScreen = ({userData, setUserData}) => {
   const [nickName, setNickName] = useState(userData.nickName);
+  const [isChecking, setIsChecking] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(false);
   const navigation = useNavigation();
 
-  const handleNickNameChange = text => {
+  const handleNickNameChange = async text => {
     if (isEnglish.test(text) || text === '') {
       setNickName(text);
       setUserData(prevState => ({
         ...prevState,
         nickName: text,
       }));
+
+      if (text.length >= 2) {
+        setIsChecking(true);
+        // try {
+        //   const response = await axios.post(
+        //     'http://10.0.2.2:8080/user/voice/register',
+        //     {nickName: text},
+        //   );
+        //   setIsDuplicate(response.date.isDuplicate);
+        // } catch (error) {
+        //   console.error('닉네임 중복 확인 에러:', error);
+        // } finally {
+        //   setIsChecking(false);
+        // }
+      }
     } else {
       Alert.alert('소문자로만 입력해주세요.');
     }
   };
 
-  const isNickNameValid = nickName.length >= 2;
+  const isNickNameValid = nickName.length >= 2 && !isDuplicate;
   const isEnglish = /^[a-z]+$/;
 
   const handleNextPress = () => {
-    // axios
-    //   .post('http://10.0.2.2:8080/user/voice/register', {
-    //     nickName,
-    //   })
-    //   .then(response => {
-    //     console.log('닉네임이 성공적으로 저장되었습니다.');
-    //     navigation.navigate('VoicePermission');
-    //   })
-    //   .catch(error => {
-    //     console.error('닉네임 저장 중 에러 발생:', error);
-    //     Alert.alert('알파벳 두 개 이상 입력해주세요.');
-    //   });
-    navigation.navigate('VoicePermission');
+    if (isDuplicate) {
+      Alert.alert('닉네임이 중복됩니다. 다른 닉네임을 입력해주세요.');
+    } else {
+      navigation.navigate('VoicePermission');
+    }
   };
 
   return (
@@ -54,6 +63,9 @@ const NickNameScreen = ({userData, setUserData}) => {
           두 글자 이상 영소문자를 입력하세요{'\n'}
           언제든지 변경할 수 있습니다
         </Text>
+        {/* {isDuplicate && (
+          <Text style={{color: 'red'}}>이미 사용 중인 닉네임입니다.</Text>
+        )} */}
       </View>
       <View style={nickNameScreenStyle.nextBtnContainer}>
         <TouchableOpacity
