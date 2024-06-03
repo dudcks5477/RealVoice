@@ -47,7 +47,7 @@ const App = () => {
   const [userData, setUserData] = useState({
     uuid: '',
     phoneNumber: '',
-    callingCode: '82',
+    callingCode: '+82',
     nickName: '',
   });
 
