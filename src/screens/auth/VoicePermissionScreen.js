@@ -38,6 +38,7 @@ const VoicePermissionScreen = ({userData}) => {
     }
     try {
       await axios.post('http://10.0.2.2:8080/user/voice/register', {
+        userUuid: userData.userUuid,
         callingCode: userData.callingCode,
         phoneNumber: userData.phoneNumber,
         nickName: userData.nickName,
