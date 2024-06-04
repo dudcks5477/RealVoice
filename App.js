@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -5,8 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import {auth} from './src/services/firebase.js';
 import {onAuthStateChanged} from 'firebase/auth';
-import {v4 as uuidv4} from 'uuid';
-import * as Random from 'expo-random';
+import uuid from 'react-native-uuid';
 
 import SplashScreen from './src/components/SplashScreen';
 import SignUpPhoneNumberScreen from './src/screens/auth/SignUpPhoneNumberScreen.js';
@@ -45,22 +45,18 @@ const App = () => {
   const [initialRoute, setInitialRoute] = useState('Splash');
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userData, setUserData] = useState({
-    uuid: '',
+    userUuid: '',
     phoneNumber: '',
     callingCode: '+82',
     nickName: '',
   });
 
   useEffect(() => {
-    const generateUUID = async () => {
-      const randomBytes = await Random.getRandomBytesAsync(16);
-      const uuid = uuidv4({random: randomBytes});
-      setUserData(prevState => ({
-        ...prevState,
-        uuid: uuid,
-      }));
-    };
-    generateUUID();
+    const generatedUuid = uuid.v4();
+    setUserData(prevState => ({
+      ...prevState,
+      userUuid: generatedUuid,
+    }));
 
     const checkAuthStatus = async () => {
       onAuthStateChanged(auth, user => {
