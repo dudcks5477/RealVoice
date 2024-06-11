@@ -23,23 +23,24 @@ const getRandomImage = () => {
 };
 
 const MainScreen = () => {
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState('realvoice');
   const [randomImage, setRandomImage] = useState(getRandomImage());
   const navigation = useNavigation();
 
-  // useEffect(() => {
-  //   const fetchUserInfo = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:8081/');
-  //       setUserName(response.data.name);
-  //     } catch (error) {
-  //       console.error('사용자 정보 가져오기 오류:', error);
-  //       Alert.alert('오류', '사용자 정보를 가져오는데 문제가 발생했습니다.');
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(
+          'http://10.0.2.2:8080/user/voice/register',
+        );
+        setUserName(response.data.nickName);
+      } catch (error) {
+        console.error('사용자 정보 가져오기 오류:', error);
+      }
+    };
 
-  //   fetchUserInfo();
-  // }, []);
+    fetchUserInfo();
+  }, []);
 
   const firstLetter = userName.charAt(0).toUpperCase();
 
