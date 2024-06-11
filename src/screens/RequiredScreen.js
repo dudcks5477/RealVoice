@@ -1,18 +1,10 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Common from '../styles/common';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
-import mainScreenStyle from '../styles/mainScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
 
 import Header from '../components/Header';
