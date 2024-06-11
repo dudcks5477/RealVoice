@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -8,15 +8,30 @@ import mainScreenStyle from '../styles/mainScreenStyle';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import recordScreenStyle from '../styles/recordScreenStyle';
 
+const images = [
+  require('../assets/random/mountain.jpg'),
+  require('../assets/random/nature.jpg'),
+  require('../assets/random/river.jpg'),
+  require('../assets/random/sea.jpg'),
+  require('../assets/random/space.jpg'),
+  require('../assets/random/temple.jpg'),
+];
+
+const getRandomImage = () => {
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+};
+
 const RecordScreen = () => {
   const navigation = useNavigation();
+  const [randomImage, setRandomImage] = useState(getRandomImage());
 
   const handleMain = () => {
     navigation.navigate('Main');
   };
 
   const handleRecording = () => {
-    navigation.navigate('Recording');
+    navigation.navigate('Recording', {startImmediately: true});
   };
 
   return (
@@ -34,10 +49,7 @@ const RecordScreen = () => {
           </View>
         </View>
         <View style={recordScreenStyle.container}>
-          <Image
-            source={require('../assets/random/sea.jpg')}
-            style={recordScreenStyle.image}
-          />
+          <Image source={randomImage} style={recordScreenStyle.image} />
           <View style={recordScreenStyle.timerContainer}>
             <Text style={recordScreenStyle.timer}>00:03</Text>
             <TouchableOpacity
