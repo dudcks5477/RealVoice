@@ -1,22 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, {useContext} from 'react';
+import {View, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Common from '../styles/common';
-import mainScreenStyle from '../styles/mainScreenStyle';
-import uploadMainScreenStyle from '../styles/uploadMainScreenStyle';
+import HeaderMain from '../components/HeaderMain';
+import VoiceItem from '../components/VoiceItem';
+import {RecordingContext} from '../services/RecordingContext';
 
 const UploadMainScreen = () => {
-  const userName = 'Chan';
-  const firstLetter = userName.charAt(0).toUpperCase();
+  const {recordings} = useContext(RecordingContext);
+  const firstLetter = 'R';
   const navigation = useNavigation();
-
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handleAddFriends = () => {
-    navigation.navigate('AddFriends');
-  };
 
   const handleProfile = () => {
     navigation.navigate('Profile');
@@ -26,187 +20,19 @@ const UploadMainScreen = () => {
     navigation.navigate('UserProfile');
   };
 
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  useEffect(() => {
-    if (isPlaying) {
-      const timer = setTimeout(() => {
-        setIsPlaying(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isPlaying]);
-
   return (
     <View style={Common.container}>
-      <View style={mainScreenStyle.header}>
-        <TouchableOpacity
-          style={mainScreenStyle.iconContainer}
-          onPress={handleAddFriends}>
-          <Icon name="group" style={mainScreenStyle.icon} />
-        </TouchableOpacity>
-        <Text style={mainScreenStyle.headerText}>RealVoice</Text>
-
-        {/* 사용자 정보 필요함 */}
-        <TouchableOpacity
-          style={mainScreenStyle.buttonContainer}
-          onPress={handleProfile}>
-          <View style={mainScreenStyle.circle}>
-            <Text style={mainScreenStyle.button}>{firstLetter}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <HeaderMain firstLetter={firstLetter} handleProfile={handleProfile} />
       <ScrollView style={{flex: 1}}>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                style={uploadMainScreenStyle.icon}
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
-        <View style={uploadMainScreenStyle.uploadedContainer}>
-          <View style={uploadMainScreenStyle.voiceContainer}>
-            <TouchableOpacity
-              style={mainScreenStyle.buttonContainer}
-              onPress={handleUserProfile}>
-              <View style={uploadMainScreenStyle.circle}>
-                <Text style={uploadMainScreenStyle.button}>{firstLetter}</Text>
-              </View>
-            </TouchableOpacity>
-            <Text style={uploadMainScreenStyle.userName}>RealVoice</Text>
-            <TouchableOpacity
-              style={uploadMainScreenStyle.timerBtn}
-              onPress={togglePlayPause}>
-              <Icon name="play-arrow" style={uploadMainScreenStyle.icon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={{color: '#fff'}}>보이스를 남긴 사람 + 3</Text>
-        </View>
+        {recordings.map((recording, index) => (
+          <VoiceItem
+            key={index}
+            firstLetter={firstLetter}
+            userName={recording.userName || 'unknown'} // 데이터에 따라 변경
+            audioUri={recording.audioUri}
+            handleUserProfile={handleUserProfile}
+          />
+        ))}
       </ScrollView>
     </View>
   );
