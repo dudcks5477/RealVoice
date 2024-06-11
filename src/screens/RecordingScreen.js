@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import {RecordingContext} from '../services/RecordingContext';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -9,44 +11,81 @@ import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import recordScreenStyle from '../styles/recordScreenStyle';
 import recordingScreenStyle from '../styles/recordingScreenStyle';
 
+const audioRecorderPlayer = new AudioRecorderPlayer();
+
+const images = [
+  require('../assets/random/mountain.jpg'),
+  require('../assets/random/nature.jpg'),
+  require('../assets/random/river.jpg'),
+  require('../assets/random/sea.jpg'),
+  require('../assets/random/space.jpg'),
+  require('../assets/random/temple.jpg'),
+];
+
+const getRandomImage = () => {
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+};
+
 const RecordingScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const {startImmediately} = route.params || {};
+  const {addRecording} = useContext(RecordingContext);
   const [timer, setTimer] = useState(3);
   const [isRecording, setIsRecording] = useState(false);
-  const [iconName, setIconName] = useState('pause');
+  const [iconName, setIconName] = useState('stop');
   const [postBtnDisabled, setPostBtnDisabled] = useState(true);
-
-  const handleRecord = () => {
-    navigation.navigate('Record');
-  };
+  const [randomImage, setRandomImage] = useState(getRandomImage());
+  const [audioUri, setAudioUri] = useState(null);
 
   const handleUploadMain = () => {
+    addRecording({userName: 'RealVoice', audioUri});
     navigation.navigate('UploadMain');
   };
 
   useEffect(() => {
+    let intervalId;
+    if (isRecording && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer(prevTimer => prevTimer - 1);
+      }, 1000);
+    }
     if (timer === 0) {
       setIsRecording(false);
       setIconName('play-arrow');
       setPostBtnDisabled(false);
+      audioRecorderPlayer.stopRecorder().then(result => {
+        setAudioUri(result);
+      });
     }
 
-    const interValId = setInterval(() => {
-      if (timer > 0) {
-        setTimer(timer - 1);
-      }
-    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [isRecording, timer]);
 
-    return () => clearInterval(interValId);
-  }, [timer]);
+  useEffect(() => {
+    if (startImmediately) {
+      handleToggleRecording();
+    }
+  }, [startImmediately]); // eslint-disable-line
 
-  const handleToggleRecording = () => {
-    setIsRecording(!isRecording);
-    if (timer === 0) {
-      setIconName('play-arrow');
+  const handleToggleRecording = async () => {
+    if (isRecording) {
+      await audioRecorderPlayer.stopRecorder();
+      audioRecorderPlayer.removeRecordBackListener();
     } else {
-      setIconName(prevIcon => (prevIcon === 'pause' ? 'play-arrow' : 'pause'));
+      if (timer === 0) {
+        setTimer(3);
+        setPostBtnDisabled(true);
+      }
+      const result = await audioRecorderPlayer.startRecorder();
+      setAudioUri(result);
+      audioRecorderPlayer.addRecordBackListener(e => {
+        console.log(e);
+      });
     }
+    setIsRecording(!isRecording);
+    setIconName(isRecording ? 'pause' : 'stop');
   };
 
   const handleDeleteFriend = () => {
@@ -61,7 +100,14 @@ const RecordingScreen = () => {
         },
         {
           text: '삭제',
-          onPress: handleRecord,
+          onPress: () => {
+            setTimer(3);
+            setIsRecording(false);
+            setIconName('mic');
+            setPostBtnDisabled(true);
+            setAudioUri(null);
+            console.log('녹음을 삭제했습니다.');
+          },
         },
       ],
       {cancelable: false},
@@ -83,10 +129,7 @@ const RecordingScreen = () => {
           </TouchableOpacity>
         </View>
         <View style={recordScreenStyle.container}>
-          <Image
-            source={require('../assets/random/sea.jpg')}
-            style={recordScreenStyle.image}
-          />
+          <Image source={randomImage} style={recordScreenStyle.image} />
           <View style={recordScreenStyle.timerContainer}>
             <Text style={recordScreenStyle.timer}>
               {timer < 10 ? `00:0${timer}` : `00:0${timer}`}
