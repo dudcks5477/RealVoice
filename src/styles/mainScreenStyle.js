@@ -51,13 +51,13 @@ const mainScreenStyle = StyleSheet.create({
     textAlign: 'center',
   },
   imageText: {
-    color: '#000',
+    color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   subImageText: {
-    color: '#000',
+    color: '#fff',
     fontSize: 14,
     textAlign: 'center',
   },
