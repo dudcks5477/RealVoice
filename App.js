@@ -2,8 +2,8 @@ import 'react-native-get-random-values';
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-// import {RecordingProvider} from './src/services/RecordingContext.js';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RecordingProvider} from './src/services/RecordingContext.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {auth} from './src/services/firebase.js';
 import {onAuthStateChanged} from 'firebase/auth';
 import uuid from 'react-native-uuid';
@@ -86,73 +86,78 @@ const App = () => {
   // }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={initialRoute}
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="SignUpPhoneNumber">
-          {props => (
-            <SignUpPhoneNumberScreen
-              {...props}
-              userData={userData}
-              setUserData={setUserData}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen
-          name="PhoneVerification"
-          component={PhoneVerificationScreen}
-        />
-        <Stack.Screen
-          name="MicroPhonePermission"
-          component={MicroPhonePermissionScreen}
-        />
-        <Stack.Screen name="NickName">
-          {props => (
-            <NickNameScreen
-              {...props}
-              userData={userData}
-              setUserData={setUserData}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="VoicePermission">
-          {props => <VoicePermissionScreen {...props} userData={userData} />}
-        </Stack.Screen>
-        <Stack.Screen name="Main" component={MainScreen} />
-        <Stack.Screen name="Record" component={RecordScreen} />
-        <Stack.Screen name="Recording" component={RecordingScreen} />
-        <Stack.Screen name="UploadMain" component={UploadMainScreen} />
-        <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="AddMoreFriends" component={AddMoreFriendsScreen} />
-        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-        <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-        <Stack.Screen name="Friends" component={FriendsScreen} />
-        <Stack.Screen name="Required" component={RequiredScreen} />
-        <Stack.Screen
-          name="SendRequestFriend"
-          component={SendRequestFriendScreen}
-        />
-        <Stack.Screen
-          name="ProfileEditDetail"
-          component={ProfileEditDetailScreen}
-        />
-        <Stack.Screen name="MemorySetting" component={MemorySettingScreen} />
-        <Stack.Screen name="AlertSetting" component={AlertSettingScreen} />
-        <Stack.Screen name="Privacy" component={PrivacyScreen} />
-        <Stack.Screen name="Blocked" component={BlockedScreen} />
-        <Stack.Screen name="Hided" component={HidedScreen} />
-        <Stack.Screen name="WorldTime" component={WorldTimeScreen} />
-        <Stack.Screen name="OtherSetting" component={OtherSettingScreen} />
-        <Stack.Screen name="Help" component={HelpScreen} />
-        <Stack.Screen name="HelpChoose" component={HelpChooseScreen} />
-        <Stack.Screen name="Information" component={InformationScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <RecordingProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName={initialRoute}
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Screen name="SignUpPhoneNumber">
+            {props => (
+              <SignUpPhoneNumberScreen
+                {...props}
+                userData={userData}
+                setUserData={setUserData}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen
+            name="PhoneVerification"
+            component={PhoneVerificationScreen}
+          />
+          <Stack.Screen
+            name="MicroPhonePermission"
+            component={MicroPhonePermissionScreen}
+          />
+          <Stack.Screen name="NickName">
+            {props => (
+              <NickNameScreen
+                {...props}
+                userData={userData}
+                setUserData={setUserData}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="VoicePermission">
+            {props => <VoicePermissionScreen {...props} userData={userData} />}
+          </Stack.Screen>
+          <Stack.Screen name="Main" component={MainScreen} />
+          <Stack.Screen name="Record" component={RecordScreen} />
+          <Stack.Screen name="Recording" component={RecordingScreen} />
+          <Stack.Screen name="UploadMain" component={UploadMainScreen} />
+          <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen
+            name="AddMoreFriends"
+            component={AddMoreFriendsScreen}
+          />
+          <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen name="Friends" component={FriendsScreen} />
+          <Stack.Screen name="Required" component={RequiredScreen} />
+          <Stack.Screen
+            name="SendRequestFriend"
+            component={SendRequestFriendScreen}
+          />
+          <Stack.Screen
+            name="ProfileEditDetail"
+            component={ProfileEditDetailScreen}
+          />
+          <Stack.Screen name="MemorySetting" component={MemorySettingScreen} />
+          <Stack.Screen name="AlertSetting" component={AlertSettingScreen} />
+          <Stack.Screen name="Privacy" component={PrivacyScreen} />
+          <Stack.Screen name="Blocked" component={BlockedScreen} />
+          <Stack.Screen name="Hided" component={HidedScreen} />
+          <Stack.Screen name="WorldTime" component={WorldTimeScreen} />
+          <Stack.Screen name="OtherSetting" component={OtherSettingScreen} />
+          <Stack.Screen name="Help" component={HelpScreen} />
+          <Stack.Screen name="HelpChoose" component={HelpChooseScreen} />
+          <Stack.Screen name="Information" component={InformationScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </RecordingProvider>
   );
 };
 
