@@ -72,3 +72,5 @@ yarn-error.log
 .prettierrc.js
 .watchmanconfig
 .env
+
+google-services.json
