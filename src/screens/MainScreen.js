@@ -22,25 +22,27 @@ const getRandomImage = () => {
   return images[randomIndex];
 };
 
-const MainScreen = () => {
+const MainScreen = ({userData}) => {
   const [userName, setUserName] = useState('realvoice');
   const [randomImage, setRandomImage] = useState(getRandomImage());
   const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
+    const fetchUserInfo = async phoneNumber => {
       try {
         const response = await axios.get(
-          'http://10.0.2.2:8080/user/voice/register',
+          `http://10.0.2.2:8080/user/voice/${phoneNumber}`,
         );
+        console.log('User info fetched successfully:', response.data);
         setUserName(response.data.nickName);
       } catch (error) {
         console.error('사용자 정보 가져오기 오류:', error);
       }
     };
-
-    fetchUserInfo();
-  }, []);
+    if (userData.phoneNumber) {
+      fetchUserInfo(userData.phoneNumber);
+    }
+  }, [userData.phoneNumber]);
 
   const firstLetter = userName.charAt(0).toUpperCase();
 
