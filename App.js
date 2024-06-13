@@ -123,7 +123,9 @@ const App = () => {
           <Stack.Screen name="VoicePermission">
             {props => <VoicePermissionScreen {...props} userData={userData} />}
           </Stack.Screen>
-          <Stack.Screen name="Main" component={MainScreen} />
+          <Stack.Screen name="Main">
+            {props => <MainScreen {...props} userData={userData} />}
+          </Stack.Screen>
           <Stack.Screen name="Record" component={RecordScreen} />
           <Stack.Screen name="Recording" component={RecordingScreen} />
           <Stack.Screen name="UploadMain" component={UploadMainScreen} />
