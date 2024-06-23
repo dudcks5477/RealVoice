@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import {RecordingContext} from '../services/RecordingContext';
+import axios from 'axios';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -39,9 +40,30 @@ const RecordingScreen = () => {
   const [randomImage, setRandomImage] = useState(getRandomImage());
   const [audioUri, setAudioUri] = useState(null);
 
-  const handleUploadMain = () => {
-    addRecording({userName: 'RealVoice', audioUri});
-    navigation.navigate('UploadMain');
+  const handleUploadMain = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', {
+        uri: audioUri,
+        type: 'audio/mpeg',
+        name: 'recording.mp3',
+      });
+      const response = await axios.post(
+        'http://10.0.2.2:8080/audio/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      console.log('서버 응답:', response.data);
+      addRecording({userName: 'RealVoice', audioUri});
+      console.log('업로드 성공', '오디오 파일이 성공적으로 업로드 되었습니다.');
+      navigation.navigate('UploadMain');
+    } catch (error) {
+      console.error('오디오 업로드 실패:', error);
+    }
   };
 
   useEffect(() => {
@@ -55,9 +77,15 @@ const RecordingScreen = () => {
       setIsRecording(false);
       setIconName('play-arrow');
       setPostBtnDisabled(false);
-      audioRecorderPlayer.stopRecorder().then(result => {
-        setAudioUri(result);
-      });
+      audioRecorderPlayer
+        .stopRecorder()
+        .then(result => {
+          console.log('녹음 파일 경로:', result);
+          setAudioUri(result);
+        })
+        .catch(error => {
+          console.error('녹음 중단 실패:', error);
+        });
     }
 
     return () => clearInterval(intervalId);
@@ -70,22 +98,27 @@ const RecordingScreen = () => {
   }, [startImmediately]); // eslint-disable-line
 
   const handleToggleRecording = async () => {
-    if (isRecording) {
-      await audioRecorderPlayer.stopRecorder();
-      audioRecorderPlayer.removeRecordBackListener();
-    } else {
-      if (timer === 0) {
-        setTimer(3);
-        setPostBtnDisabled(true);
+    try {
+      if (isRecording) {
+        await audioRecorderPlayer.stopRecorder();
+        audioRecorderPlayer.removeRecordBackListener();
+      } else {
+        if (timer === 0) {
+          setTimer(3);
+          setPostBtnDisabled(true);
+        }
+        const result = await audioRecorderPlayer.startRecorder();
+        console.log('녹음 시작:', result);
+        setAudioUri(result);
+        audioRecorderPlayer.addRecordBackListener(e => {
+          console.log(e);
+        });
       }
-      const result = await audioRecorderPlayer.startRecorder();
-      setAudioUri(result);
-      audioRecorderPlayer.addRecordBackListener(e => {
-        console.log(e);
-      });
+      setIsRecording(!isRecording);
+      setIconName(isRecording ? 'pause' : 'stop');
+    } catch (error) {
+      console.error('녹음 시작/중단 실패:', error);
     }
-    setIsRecording(!isRecording);
-    setIconName(isRecording ? 'pause' : 'stop');
   };
 
   const handleDeleteFriend = () => {
