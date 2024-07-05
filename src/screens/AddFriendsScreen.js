@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
+import Contacts from 'react-native-contacts';
 import Common from '../styles/common';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -13,9 +14,12 @@ import FriendItem from '../components/FriendItem';
 import InviteItem from '../components/InviteItem';
 import Footer from '../components/Footer';
 
+import {useUser} from '../contexts/UserContext';
+
 const AddFriendsScreen = () => {
   const navigation = useNavigation();
-  const userName = 'Chan';
+  const {userData} = useUser();
+  const userName = userData.nickName || 'RealVoice';
   const firstLetter = userName.charAt(0).toUpperCase();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([
@@ -31,6 +35,20 @@ const AddFriendsScreen = () => {
     {id: 10, name: 'Stan Lee', username: ''},
     {id: 11, name: 'Nick Fury', username: ''},
   ]);
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    const loadContacts = () => {
+      Contacts.getAll()
+        .then(contacts => {
+          setContacts(contacts);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    };
+    loadContacts();
+  }, []);
 
   const handleMain = () => {
     navigation.navigate('Main');
@@ -58,35 +76,60 @@ const AddFriendsScreen = () => {
 
   const handleAddFriend = async friendId => {
     try {
-      // const response = await axios.post('/api/friends/add', {
-      //   userId: userName,
-      //   friendId: friendId,
-      // });
-      // if (response.status === 200) {
-      //   console.log(`Added friend with id ${friendId}`);
-      // }
-      console.log(`Added friend with id ${friendId}`);
+      const response = await axios.post(
+        'http://10.0.2.2:8080/friends/addUser',
+        {
+          requestUuid: userData.userUuid,
+          targetUuid: friendId,
+        },
+      );
+      if (response.status === 200) {
+        console.log(`Added friend with id ${friendId}`);
+      } else {
+        console.error(`Failed to add friend with id ${friendId}`);
+      }
     } catch (error) {
-      console.error(error);
+      console.error(`Error adding friend with id ${friendId}: `, error);
     }
   };
 
-  const handleDeleteFriend = friendId => {
-    setSearchResults(prevResults =>
-      prevResults.filter(friend => friend.id !== friendId),
-    );
+  const handleDeleteFriend = async friendId => {
+    try {
+      const response = await axios.post('http://10.0.2.2:8080/friends/remove', {
+        userUuid: userData.userUuid,
+        friendId: friendId,
+      });
+      if (response.status === 200) {
+        console.log(`Deleted friend with id ${friendId}`);
+        setSearchResults(prevResults =>
+          prevResults.filter(friend => friend.id !== friendId),
+        );
+      } else {
+        console.error(`Failed to delete friend with id ${friendId}`);
+      }
+    } catch (error) {
+      console.error(
+        `Error deleting friend with id ${friendId}: `,
+        error.response ? error.response.data : error.message,
+      );
+    }
   };
 
   const handleSearchFriends = async () => {
     try {
-      const response = await axios.get('/api/friends/search', {
+      const response = await axios.get('http://10.0.2.2:8080/friends/search', {
         params: {query: searchQuery},
       });
       if (response.status === 200) {
         setSearchResults(response.data);
+      } else {
+        console.error(`Failed to search friends with query ${searchQuery}`);
       }
     } catch (error) {
-      console.error(error);
+      console.error(
+        `Error searching friends with query ${searchQuery}: `,
+        error,
+      );
     }
   };
 
@@ -109,9 +152,9 @@ const AddFriendsScreen = () => {
               <FriendItem
                 key={result.id}
                 friend={result}
-                onAdd={handleAddFriend}
-                onProfile={handleUserProfile}
-                onDelete={handleDeleteFriend} // 삭제 함수 전달
+                onAdd={() => handleAddFriend(result.id)}
+                onProfile={() => handleUserProfile(result.id)}
+                onDelete={() => handleDeleteFriend(result.id)} // 삭제 함수 전달
               />
             ))}
             {searchResults.length > 5 && (
@@ -136,16 +179,14 @@ const AddFriendsScreen = () => {
               RealVoice 연락처
             </Text>
           </View>
-          {Array(5)
-            .fill()
-            .map((_, index) => (
-              <InviteItem
-                key={index}
-                firstLetter={firstLetter}
-                name={`RealVoice${index + 1}`}
-                username={`realvoice${index + 1}`}
-              />
-            ))}
+          {contacts.map((contact, index) => (
+            <InviteItem
+              key={index}
+              firstLetter={contact.givenName.charAt(0).toUpperCase()}
+              name={contact.givenName}
+              username={contact.givenName}
+            />
+          ))}
         </View>
       </ScrollView>
       <Footer
