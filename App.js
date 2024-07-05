@@ -8,6 +8,7 @@ import {auth} from './src/services/firebase.js';
 import {onAuthStateChanged} from 'firebase/auth';
 import uuid from 'react-native-uuid';
 
+import {UserProvider, useUser} from './src/contexts/UserContext.js';
 import SplashScreen from './src/components/SplashScreen';
 import SignUpPhoneNumberScreen from './src/screens/auth/SignUpPhoneNumberScreen.js';
 import PhoneVerificationScreen from './src/screens/auth/PhoneVerificationScreen.js';
@@ -41,15 +42,9 @@ import InformationScreen from './src/screens/InformationScreen.js';
 
 const Stack = createStackNavigator();
 
-const App = () => {
+const AppContent = () => {
   const [initialRoute, setInitialRoute] = useState('Splash');
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [userData, setUserData] = useState({
-    userUuid: '',
-    phoneNumber: '',
-    callingCode: '+82',
-    nickName: '',
-  });
+  const {userData, setUserData} = useUser();
 
   useEffect(() => {
     const generatedUuid = uuid.v4();
@@ -61,105 +56,100 @@ const App = () => {
     const checkAuthStatus = async () => {
       onAuthStateChanged(auth, user => {
         if (user) {
-          setIsSignedIn(true);
           setInitialRoute('MainScreen');
         } else {
-          setIsSignedIn(false);
           setInitialRoute('SignUpPhoneNumber');
         }
       });
     };
     checkAuthStatus();
-  }, []);
-  // try {
-  //   const isSignedUp = await AsyncStorage.getItem('isSignedUp');
-  //   if (isSignedUp === 'true') {
-  //     setInitialRoute('MainScreen');
-  //   } else {
-  //     console.log('회원가입이 필요한 사용자입니다.');
-  //   }
-  // } catch (error) {
-  //   console.error('AsyncStorage error: ', error);
-  // }
-  //   };
-  //   checkSignUpStatus();
-  // }, []);
+  }, [setUserData]);
 
   return (
-    <RecordingProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={initialRoute}
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="Splash" component={SplashScreen} />
-          <Stack.Screen name="SignUpPhoneNumber">
-            {props => (
-              <SignUpPhoneNumberScreen
-                {...props}
-                userData={userData}
-                setUserData={setUserData}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen
-            name="PhoneVerification"
-            component={PhoneVerificationScreen}
-          />
-          <Stack.Screen
-            name="MicroPhonePermission"
-            component={MicroPhonePermissionScreen}
-          />
-          <Stack.Screen name="NickName">
-            {props => (
-              <NickNameScreen
-                {...props}
-                userData={userData}
-                setUserData={setUserData}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="VoicePermission">
-            {props => <VoicePermissionScreen {...props} userData={userData} />}
-          </Stack.Screen>
-          <Stack.Screen name="Main">
-            {props => <MainScreen {...props} userData={userData} />}
-          </Stack.Screen>
-          <Stack.Screen name="Record" component={RecordScreen} />
-          <Stack.Screen name="Recording" component={RecordingScreen} />
-          <Stack.Screen name="UploadMain" component={UploadMainScreen} />
-          <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen
-            name="AddMoreFriends"
-            component={AddMoreFriendsScreen}
-          />
-          <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-          <Stack.Screen name="Friends" component={FriendsScreen} />
-          <Stack.Screen name="Required" component={RequiredScreen} />
-          <Stack.Screen
-            name="SendRequestFriend"
-            component={SendRequestFriendScreen}
-          />
-          <Stack.Screen
-            name="ProfileEditDetail"
-            component={ProfileEditDetailScreen}
-          />
-          <Stack.Screen name="MemorySetting" component={MemorySettingScreen} />
-          <Stack.Screen name="AlertSetting" component={AlertSettingScreen} />
-          <Stack.Screen name="Privacy" component={PrivacyScreen} />
-          <Stack.Screen name="Blocked" component={BlockedScreen} />
-          <Stack.Screen name="Hided" component={HidedScreen} />
-          <Stack.Screen name="WorldTime" component={WorldTimeScreen} />
-          <Stack.Screen name="OtherSetting" component={OtherSettingScreen} />
-          <Stack.Screen name="Help" component={HelpScreen} />
-          <Stack.Screen name="HelpChoose" component={HelpChooseScreen} />
-          <Stack.Screen name="Information" component={InformationScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </RecordingProvider>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName={initialRoute}
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="SignUpPhoneNumber">
+          {props => (
+            <SignUpPhoneNumberScreen
+              {...props}
+              userData={userData}
+              setUserData={setUserData}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="PhoneVerification">
+          {props => (
+            <PhoneVerificationScreen
+              {...props}
+              userData={userData}
+              setUserData={setUserData}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name="MicroPhonePermission"
+          component={MicroPhonePermissionScreen}
+        />
+        <Stack.Screen name="NickName">
+          {props => (
+            <NickNameScreen
+              {...props}
+              userData={userData}
+              setUserData={setUserData}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="VoicePermission">
+          {props => <VoicePermissionScreen {...props} userData={userData} />}
+        </Stack.Screen>
+        <Stack.Screen name="Main">
+          {props => <MainScreen {...props} userData={userData} />}
+        </Stack.Screen>
+        <Stack.Screen name="Record" component={RecordScreen} />
+        <Stack.Screen name="Recording" component={RecordingScreen} />
+        <Stack.Screen name="UploadMain" component={UploadMainScreen} />
+        <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="AddMoreFriends" component={AddMoreFriendsScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+        <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+        <Stack.Screen name="Friends" component={FriendsScreen} />
+        <Stack.Screen name="Required" component={RequiredScreen} />
+        <Stack.Screen
+          name="SendRequestFriend"
+          component={SendRequestFriendScreen}
+        />
+        <Stack.Screen
+          name="ProfileEditDetail"
+          component={ProfileEditDetailScreen}
+        />
+        <Stack.Screen name="MemorySetting" component={MemorySettingScreen} />
+        <Stack.Screen name="AlertSetting" component={AlertSettingScreen} />
+        <Stack.Screen name="Privacy" component={PrivacyScreen} />
+        <Stack.Screen name="Blocked" component={BlockedScreen} />
+        <Stack.Screen name="Hided" component={HidedScreen} />
+        <Stack.Screen name="WorldTime" component={WorldTimeScreen} />
+        <Stack.Screen name="OtherSetting" component={OtherSettingScreen} />
+        <Stack.Screen name="Help" component={HelpScreen} />
+        <Stack.Screen name="HelpChoose" component={HelpChooseScreen} />
+        <Stack.Screen name="Information" component={InformationScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const App = () => {
+  return (
+    <UserProvider>
+      <RecordingProvider>
+        <AppContent />
+      </RecordingProvider>
+    </UserProvider>
   );
 };
 
