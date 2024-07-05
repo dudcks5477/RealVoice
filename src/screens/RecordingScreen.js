@@ -4,7 +4,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import {RecordingContext} from '../services/RecordingContext';
+import {UserContext} from '../contexts/UserContext';
 import axios from 'axios';
+import {API_URL} from '@env';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -33,6 +35,7 @@ const RecordingScreen = () => {
   const route = useRoute();
   const {startImmediately} = route.params || {};
   const {addRecording} = useContext(RecordingContext);
+  const {userData} = useContext(UserContext);
   const [timer, setTimer] = useState(3);
   const [isRecording, setIsRecording] = useState(false);
   const [iconName, setIconName] = useState('stop');
@@ -48,15 +51,12 @@ const RecordingScreen = () => {
         type: 'audio/mpeg',
         name: 'recording.mp3',
       });
-      const response = await axios.post(
-        'http://10.0.2.2:8080/audio/upload',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+      formData.append('uuid', userData.uuid);
+      const response = await axios.post(`${API_URL}/audio/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
-      );
+      });
       console.log('서버 응답:', response.data);
       addRecording({userName: 'RealVoice', audioUri});
       console.log('업로드 성공', '오디오 파일이 성공적으로 업로드 되었습니다.');
