@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-
+import {API_URL} from '@env';
 import Common from '../styles/common';
 
 import HeaderMain from '../components/HeaderMain';
@@ -28,15 +28,20 @@ const MainScreen = ({userData}) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchUserInfo = async phoneNumber => {
+    const fetchUserInfo = async uuid => {
       try {
-        const response = await axios.get(
-          `http://10.0.2.2:8080/user/voice/${phoneNumber}`,
-        );
+        const response = await axios.get(`${API_URL}/user/profile/${uuid}`);
         console.log('User info fetched successfully:', response.data);
-        setUserName(response.data.nickName);
+        if (response.data && response.data.nickName) {
+          setUserName(response.data.nickName);
+        } else {
+          console.warn('No nickName found in response:', response.data);
+        }
       } catch (error) {
-        console.error('사용자 정보 가져오기 오류:', error);
+        console.error(
+          '사용자 정보 가져오기 오류:',
+          error.response || error.message || error,
+        );
       }
     };
     if (userData.phoneNumber) {
@@ -44,7 +49,7 @@ const MainScreen = ({userData}) => {
     }
   }, [userData.phoneNumber]);
 
-  const firstLetter = userName.charAt(0).toUpperCase();
+  const firstLetter = userName ? userName.charAt(0).toUpperCase() : '';
 
   const handleProfile = () => {
     navigation.navigate('Profile');
