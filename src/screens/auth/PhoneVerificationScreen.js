@@ -1,13 +1,41 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  PermissionsAndroid,
+  Platform,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
+import {API_URL} from '@env';
 import Common from '../../styles/common';
 import phoneVerificationScreenStyle from '../../styles/phoneVerificationScreenStyle';
 
 const PhoneVerificationScreen = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const requestContactsPermission = async () => {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+          {
+            title: 'Contacts Permission',
+            message: 'This app would like to view your contacts',
+            buttonPositive: 'Please accept bare mortal',
+          },
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.warn('Contacts permission denied');
+        }
+      }
+    };
+    requestContactsPermission();
+  }, []);
 
   const handleVerificationCodeChange = text => {
     if (/^\d*$/.test(text)) {
@@ -25,7 +53,7 @@ const PhoneVerificationScreen = () => {
 
   const handleResendVerificationCode = () => {
     axios
-      .post('http://10.0.2.2:8080/user/voice/register')
+      .post(`${API_URL}/user/voice/register`)
       .then(response => {
         Alert.alert('인증번호를 재전송하였습니다.');
         console.log('인증번호를 다시 전송합니다.');
@@ -59,7 +87,6 @@ const PhoneVerificationScreen = () => {
         <View>
           <TouchableOpacity onPress={handleResendVerificationCode}>
             <Text style={Common.assignColor}>
-              {/* 선택 시 인증 코드 재전송 로직 구현 필요 */}
               받지 못하셨나요? 탭하여 다시 전송하세요.
               {'\n'}
             </Text>
