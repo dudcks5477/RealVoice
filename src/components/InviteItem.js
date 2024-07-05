@@ -3,9 +3,8 @@ import {View, Text, TouchableOpacity, Linking} from 'react-native';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 
-const InviteItem = ({firstLetter, name, username}) => {
+const InviteItem = ({firstLetter, name, username, phoneNumber}) => {
   const handleInvite = () => {
-    const phoneNumber = '01023456789';
     const message =
       'RealVoice에 초대합니다. 친구들과 자신의 RealVoice를 공유하세요!';
 
