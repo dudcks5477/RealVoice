@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, Alert, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import CountryPicker from 'react-native-country-picker-modal';
+import axios from 'axios';
+import {API_URL} from '@env';
 import Common from '../../styles/common';
 import signUpPhoneNumberScreenStyle from '../../styles/signUpPhoneNumberScreenStyle';
 
@@ -30,12 +32,30 @@ const SignUpPhoneNumberScreen = ({userData, setUserData}) => {
     setCountryCode(country.cca2);
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (userData.phoneNumber.trim() === '') {
       Alert.alert('전화번호를 입력하세요.');
       return;
     }
-    navigation.navigate('PhoneVerification');
+    try {
+      const response = await axios.post(`${API_URL}/user/voice/register`, {
+        userUuid: userData.userUuid,
+        callingCode: userData.callingCode,
+        phoneNumber: userData.phoneNumber,
+        nickName: userData.nickName,
+      });
+      console.log('Server response:', response);
+      if (response.status === 200 || response.status === 201) {
+        navigation.navigate('PhoneVerification');
+      }
+    } catch (error) {
+      console.error('Erroor response:', error.response);
+      if (error.response && error.response.status === 400) {
+        Alert.alert('이미 등록된 전화번호입니다.');
+      } else {
+        console.error('전화번호 등록 중 에러 발생:', error);
+      }
+    }
   };
 
   return (
