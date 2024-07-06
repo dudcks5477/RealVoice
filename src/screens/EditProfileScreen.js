@@ -82,7 +82,9 @@ const EditProfileScreen = () => {
           onPress={handleProfile}>
           <View style={profileScreenStyle.headerBack}>
             <Icon name="arrow-back" style={profileScreenStyle.icon} />
-            <Text style={profileScreenStyle.headerText}>{userName}</Text>
+            <Text style={profileScreenStyle.headerText}>
+              {userData.nickName}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -96,8 +98,12 @@ const EditProfileScreen = () => {
             </View>
           </View>
           <View>
-            <Text style={editProfileScreenStyle.nickname}>{userName}</Text>
-            <Text style={editProfileScreenStyle.username}>사용자이름</Text>
+            <Text style={editProfileScreenStyle.nickname}>
+              {userData.nickName}
+            </Text>
+            <Text style={editProfileScreenStyle.username}>
+              {userData.nickName}
+            </Text>
           </View>
         </TouchableOpacity>
         {/* 기능 */}
