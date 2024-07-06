@@ -12,10 +12,17 @@ export const UserProvider = ({children}) => {
     phoneNumber: '',
     callingCode: '+82',
     nickName: '',
+    realName: '',
+    bio: '',
+    location: '',
   });
 
+  const setUser = newUserData => {
+    setUserData(newUserData);
+  };
+
   return (
-    <UserContext.Provider value={{userData, setUserData}}>
+    <UserContext.Provider value={{userData, setUserData, setUser}}>
       {children}
     </UserContext.Provider>
   );
