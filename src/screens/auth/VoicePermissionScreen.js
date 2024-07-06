@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,14 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {API_URL} from '@env';
+import {UserContext} from '../../contexts/UserContext';
 import Common from '../../styles/common';
 import voicePermissionScreenStyle from '../../styles/voicePermissionScreenStyle';
 
-const VoicePermissionScreen = ({userData}) => {
+const VoicePermissionScreen = () => {
   const [isAllowPressed, setIsAllowPressed] = useState(false);
   const navigation = useNavigation();
+  const {userData} = useContext(UserContext);
 
   const handleAllow = async () => {
     if (Platform.OS === 'android' && Platform.Version >= 13) {
@@ -58,10 +60,6 @@ const VoicePermissionScreen = ({userData}) => {
     console.log('허용하지 않기 버튼을 눌렀습니다.');
     navigation.navigate('Main');
   };
-
-  // const handleMain = () => {
-  //   navigation.navigate('Main');
-  // };
 
   const allowButtonStyle = isAllowPressed ? {backgroundColor: '#2a55ee'} : null;
 
