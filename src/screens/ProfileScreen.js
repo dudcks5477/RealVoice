@@ -35,6 +35,10 @@ const ProfileScreen = () => {
   // 가입 연도 상태 추가 (예시 0년 설정)
   const [joinYear, setJoinYear] = useState(0);
 
+  useEffect(() => {
+    console.log('UserData:', userData);
+  }, [userData]);
+
   const handleUploadMain = () => {
     navigation.navigate('UploadMain');
   };
@@ -68,9 +72,9 @@ const ProfileScreen = () => {
         // 로직 고민 필요 (첫 가입자랑 기존 가입자 분리)
         handleUploadMain={handleUploadMain}
         handleEditProfile={handleEditProfile}
-        nickname={userData.username}
+        nickname={userData.nickName}
       />
-      <UserNameShare nickname={userData.username} />
+      <UserNameShare nickname={userData.nickName} />
       <IntroSection country={userData.country} joinYear={joinYear} />
       <UserMemorizeSection
         isPlaying={isPlaying}

@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -34,12 +34,21 @@ const getRandomImage = () => {
 const ProfileEditDetailScreen = () => {
   const [randomImage, setRandomImage] = useState(getRandomImage());
   const [profileImage, setProfileImage] = useState(null);
-  const [username, setUsername] = useState('zerochan');
-  const [realName, setRealName] = useState('김영찬');
+  const [nickName, setNickName] = useState('');
+  const [realName, setRealName] = useState('');
   const [bio, setBio] = useState('당신의 진실한 목소리를 들려주세요.');
   const [location, setLocation] = useState('KOREA');
   const navigation = useNavigation();
   const {userData, setUser} = useContext(UserContext);
+
+  useEffect(() => {
+    if (userData) {
+      setNickName(userData.nickName || '');
+      setRealName(userData.realName || '');
+      setBio(userData.bio || '당신의 진실한 목소리를 들려주세요');
+      setLocation(userData.location || '');
+    }
+  }, [userData]);
 
   const handleChangeProfile = () => {
     Alert.alert(
@@ -84,7 +93,7 @@ const ProfileEditDetailScreen = () => {
   const handleEditProfile = () => {
     setUser({
       ...userData,
-      userName: username,
+      nickName: nickName,
       realName: realName,
       bio: bio,
       location: location,
@@ -124,8 +133,8 @@ const ProfileEditDetailScreen = () => {
           <Text style={profileEditDetailScreenStyle.userName}>사용자명</Text>
           <TextInput
             style={profileEditDetailScreenStyle.userNameInput}
-            value={username}
-            onChangeText={setUsername}
+            value={nickName}
+            onChangeText={setNickName}
           />
         </View>
         {/* 사용자 이름 */}

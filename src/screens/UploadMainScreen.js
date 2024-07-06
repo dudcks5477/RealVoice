@@ -11,9 +11,9 @@ import {RecordingContext} from '../services/RecordingContext';
 const UploadMainScreen = () => {
   const {recordings} = useContext(RecordingContext);
   const {userData} = useContext(UserContext);
-  const firstLetter = userData.userName
-    ? userData.username.charAt(0).toUpperCase()
-    : 'R';
+  const firstLetter = userData.nickName
+    ? userData.nickName.charAt(0).toUpperCase()
+    : '';
   const navigation = useNavigation();
 
   const handleProfile = () => {
@@ -32,7 +32,7 @@ const UploadMainScreen = () => {
           <VoiceItem
             key={index}
             firstLetter={firstLetter}
-            userName={recording.userName || 'unknown'} // 데이터에 따라 변경
+            nickName={recording.nickName || 'unknown'} // 데이터에 따라 변경
             audioUri={recording.audioUri}
             handleUserProfile={handleUserProfile}
           />
