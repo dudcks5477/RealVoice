@@ -19,8 +19,8 @@ import FriendDeleteItem from '../components/FriendDeleteItem';
 const FriendsScreen = () => {
   const {userData} = useContext(UserContext);
   const navigation = useNavigation();
-  const userName = userData.userName;
-  const firstLetter = userName.charAt(0).toUpperCase();
+  const userName = userData.userName || 'realVoice';
+  const firstLetter = userName ? userName.charAt(0).toUpperCase() : '';
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [friends, setFriends] = useState([
