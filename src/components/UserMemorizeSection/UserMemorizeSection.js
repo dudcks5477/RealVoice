@@ -6,7 +6,7 @@ import CalendarButton from './CalendarButton';
 
 const getLast20Days = () => {
   const dates = [];
-  const today = new Date(2024, 5, 10); // 5월은 JavaScript에서 4로 표기 (0부터 시작하기 때문)
+  const today = new Date(2024, 6, 1); // 5월은 JavaScript에서 4로 표기 (0부터 시작하기 때문)
   for (let i = 0; i < 20; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
