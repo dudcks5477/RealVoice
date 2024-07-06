@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/UserContext';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -13,6 +14,7 @@ import profileEditDetailScreenStyle from '../styles/profileEditDetailScreenStyle
 import AlertSettingItem from '../components/AlertSettingItem';
 
 const AlertSettingScreen = () => {
+  const {userData} = useContext(UserContext);
   const navigation = useNavigation();
   const [isEnabledSpeakingTag, setIsEnabledSpeakingTag] = useState(true);
   const [isEnabledFriendRequest, setIsEnabledFriendRequest] = useState(true);

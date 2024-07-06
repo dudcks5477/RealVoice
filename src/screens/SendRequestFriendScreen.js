@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {ScrollView, View, Text, TouchableOpacity, Alert} from 'react-native';
 import Common from '../styles/common';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/UserContext';
 
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
@@ -10,7 +11,8 @@ import FriendDeleteItem from '../components/FriendDeleteItem';
 
 const SendRequestFriendScreen = () => {
   const navigation = useNavigation();
-  const userName = 'Chan';
+  const {userData} = useContext(UserContext);
+  const userName = userData.userName || 'realVoice';
   const firstLetter = userName.charAt(0).toUpperCase();
   const [friends, setFriends] = useState([
     'Thor',

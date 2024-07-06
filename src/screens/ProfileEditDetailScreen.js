@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {UserContext} from '../contexts/UserContext';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -38,6 +39,7 @@ const ProfileEditDetailScreen = () => {
   const [bio, setBio] = useState('당신의 진실한 목소리를 들려주세요.');
   const [location, setLocation] = useState('KOREA');
   const navigation = useNavigation();
+  const {userData, setUser} = useContext(UserContext);
 
   const handleChangeProfile = () => {
     Alert.alert(
@@ -80,6 +82,13 @@ const ProfileEditDetailScreen = () => {
   };
 
   const handleEditProfile = () => {
+    setUser({
+      ...userData,
+      userName: username,
+      realName: realName,
+      bio: bio,
+      location: location,
+    });
     navigation.navigate('EditProfile');
   };
 

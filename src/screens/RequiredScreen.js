@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Common from '../styles/common';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/UserContext';
 import axios from 'axios';
+import {API_URL} from '@env';
 
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
@@ -14,7 +16,8 @@ import FriendItem from '../components/FriendItem';
 
 const RequiredScreen = () => {
   const navigation = useNavigation();
-  const userName = 'Chan';
+  const {userData} = useContext(UserContext);
+  const userName = userData.username || 'realVoice';
   const firstLetter = userName.charAt(0).toUpperCase();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([
@@ -50,7 +53,7 @@ const RequiredScreen = () => {
 
   const handleSearchFriends = async () => {
     try {
-      const response = await axios.get('/api/friends/search', {
+      const response = await axios.get(`${API_URL}/api/friends/search`, {
         params: {query: searchQuery},
       });
       if (response.status === 200) {
@@ -63,7 +66,7 @@ const RequiredScreen = () => {
 
   const handleAddFriend = async friendId => {
     try {
-      // const response = await axios.post('/api/friends/add', {
+      // const response = await axios.post(`${API_URL}/api/friends/add`, {
       //   userId: userName,
       //   friendId: friendId,
       // });

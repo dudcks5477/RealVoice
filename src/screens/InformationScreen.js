@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-
+import {UserContext} from '../contexts/UserContext';
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import profileScreenStyle from '../styles/profileScreenStyle';
@@ -11,7 +11,7 @@ import worldTimeScreenStyle from '../styles/worldTimeScreenStyle';
 
 const InformationScreen = () => {
   const navigation = useNavigation();
-
+  const {userData} = useContext(UserContext);
   const handleEditProfile = () => {
     navigation.navigate('EditProfile');
   };

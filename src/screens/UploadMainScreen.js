@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {View, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/UserContext';
 
 import Common from '../styles/common';
 import HeaderMain from '../components/HeaderMain';
@@ -9,7 +10,10 @@ import {RecordingContext} from '../services/RecordingContext';
 
 const UploadMainScreen = () => {
   const {recordings} = useContext(RecordingContext);
-  const firstLetter = 'R';
+  const {userData} = useContext(UserContext);
+  const firstLetter = userData.userName
+    ? userData.username.charAt(0).toUpperCase()
+    : 'R';
   const navigation = useNavigation();
 
   const handleProfile = () => {

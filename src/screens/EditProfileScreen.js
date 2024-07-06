@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {View, Text, TouchableOpacity, Share, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
+import {UserContext} from '../contexts/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Common from '../styles/common';
@@ -11,23 +11,10 @@ import profileScreenStyle from '../styles/profileScreenStyle';
 import editProfileScreenStyle from '../styles/editProfileScreenStyle';
 
 const EditProfileScreen = () => {
-  // const [userName, setUserName] = useState('');
+  const {userData} = useContext(UserContext);
   const navigation = useNavigation();
-  const userName = 'zerochan';
+  const userName = userData?.userName || 'realVoice';
   const firstLetter = userName.charAt(0).toUpperCase();
-
-  // useEffect(() => {
-  //   axios
-  //     .get('/api/user/profile')
-  //     .then(response => {
-  //       const {userName} = response.data;
-  //       setUserName(userName);
-  //     })
-  //     .catch(error => {
-  //       console.error('Failed to fetch user profile:', error);
-  //       // Alert.alert('사용자 정보를 가져오는데 문제가 발생했습니다.');
-  //     });
-  // }, []);
 
   const handleProfile = () => {
     navigation.navigate('Profile');

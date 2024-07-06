@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Common from '../styles/common';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-
+import {API_URL} from '@env';
+import {UserContext} from '../contexts/UserContext';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import addMoreFriendsScreenStyle from '../styles/addMoreFriendsScreenStyle';
@@ -16,8 +17,9 @@ import ShareInvite from '../components/ShareInvite';
 import FriendDeleteItem from '../components/FriendDeleteItem';
 
 const FriendsScreen = () => {
+  const {userData} = useContext(UserContext);
   const navigation = useNavigation();
-  const userName = 'Chan';
+  const userName = userData.userName;
   const firstLetter = userName.charAt(0).toUpperCase();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -50,7 +52,7 @@ const FriendsScreen = () => {
 
   const handleSearchFriends = async () => {
     try {
-      const response = await axios.get('/api/friends/search', {
+      const response = await axios.get(`${API_URL}/api/friends/search`, {
         params: {query: searchQuery},
       });
       if (response.status === 200) {

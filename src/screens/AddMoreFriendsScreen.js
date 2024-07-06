@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import Common from '../styles/common';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-
+import {API_URL} from '@env';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 import requiredScreenStyle from '../styles/requiredScreenStyle';
 import addMoreFriendsScreenStyle from '../styles/addMoreFriendsScreenStyle';
@@ -11,10 +11,12 @@ import addMoreFriendsScreenStyle from '../styles/addMoreFriendsScreenStyle';
 import Header from '../components/Header';
 import Search from '../components/Search';
 import FriendItem from '../components/FriendItem';
+import {UserContext} from '../contexts/UserContext';
 
 const AddMoreFriendsScreen = () => {
+  const {userData} = useContext(UserContext);
   const navigation = useNavigation();
-  const userName = 'Chan';
+  const userName = userData.userName || 'realVoice';
   const [isAdded, setIsAdded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([
@@ -45,13 +47,13 @@ const AddMoreFriendsScreen = () => {
 
   const handleAddFriend = async friendId => {
     try {
-      // const response = await axios.post('/api/friends/add', {
-      //   userId: userName,
-      //   friendId: friendId,
-      // });
-      // if (response.status === 200) {
-      //   console.log(`Added friend with id ${friendId}`);
-      // }
+      const response = await axios.post(`${API_URL}/api/friends/add`, {
+        userId: userName,
+        friendId: friendId,
+      });
+      if (response.status === 200) {
+        console.log(`Added friend with id ${friendId}`);
+      }
       console.log(`Add friend with id ${friendId}`);
     } catch (error) {
       console.error(error);
@@ -60,7 +62,7 @@ const AddMoreFriendsScreen = () => {
 
   const handleSearchFriends = async () => {
     try {
-      const response = await axios.get('/api/friends/search', {
+      const response = await axios.get(`${API_URL}/api/friends/search`, {
         params: {query: searchQuery},
       });
       if (response.status === 200) {

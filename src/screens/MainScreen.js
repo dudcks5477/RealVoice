@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import Common from '../styles/common';
 
 import HeaderMain from '../components/HeaderMain';
 import RandomImageSection from '../components/RandomImageSection';
+import {UserContext} from '../contexts/UserContext';
 
 const images = [
   require('../assets/random/mountain.jpg'),
@@ -22,7 +23,8 @@ const getRandomImage = () => {
   return images[randomIndex];
 };
 
-const MainScreen = ({userData}) => {
+const MainScreen = () => {
+  const {userData} = useContext(UserContext);
   const [userName, setUserName] = useState('realvoice');
   const [randomImage, setRandomImage] = useState(getRandomImage());
   const navigation = useNavigation();

@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import {UserContext} from '../contexts/UserContext';
 import Common from '../styles/common';
 import profileScreenStyle from '../styles/profileScreenStyle';
 
@@ -26,11 +26,14 @@ const getRandomImage = () => {
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const {userData} = useContext(UserContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const [randomImage, setRandomImage] = useState(getRandomImage());
-  const [nickname, setNickname] = useState('zerochan');
-  const [country, setCountry] = useState('KOREA'); // 추 후 국가 추가시 변경
-  const [joinYear, setJoinYear] = useState(0); // 가입 연도 상태 추가 (예시 0년 설정)
+  // const [nickname, setNickname] = useState('zerochan');
+  // 추 후 국가 추가시 변경
+  // const [country, setCountry] = useState('KOREA');
+  // 가입 연도 상태 추가 (예시 0년 설정)
+  const [joinYear, setJoinYear] = useState(0);
 
   const handleUploadMain = () => {
     navigation.navigate('UploadMain');
@@ -65,10 +68,10 @@ const ProfileScreen = () => {
         // 로직 고민 필요 (첫 가입자랑 기존 가입자 분리)
         handleUploadMain={handleUploadMain}
         handleEditProfile={handleEditProfile}
-        nickname={nickname}
+        nickname={userData.username}
       />
-      <UserNameShare nickname={nickname} />
-      <IntroSection country={country} joinYear={joinYear} />
+      <UserNameShare nickname={userData.username} />
+      <IntroSection country={userData.country} joinYear={joinYear} />
       <UserMemorizeSection
         isPlaying={isPlaying}
         togglePlayPause={togglePlayPause}

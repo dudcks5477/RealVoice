@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, Switch} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/UserContext';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -13,6 +14,7 @@ import AlertSettingItem from '../components/AlertSettingItem';
 
 const PrivacyScreen = () => {
   const navigation = useNavigation();
+  const {userData} = useContext(UserContext);
   const [isEnabledWorld, setIsEnabledWorld] = useState(false);
   const [isEnabledPhone, setIsEnabledPhone] = useState(false);
   const [isEnabledSync, setIsEnabledSync] = useState(false);

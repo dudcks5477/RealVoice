@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
+import {API_URL} from '@env';
+import {UserContext} from '../contexts/UserContext';
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import profileScreenStyle from '../styles/profileScreenStyle';
@@ -14,7 +15,7 @@ import otherSettingScreenStyle from '../styles/otherSettingScreenStyle';
 
 const OtherSettingScreen = () => {
   const navigation = useNavigation();
-
+  const {userData} = useContext(UserContext);
   const handleEditProfile = () => {
     navigation.navigate('EditProfile');
   };
@@ -41,14 +42,11 @@ const OtherSettingScreen = () => {
           text: '삭제',
           onPress: async () => {
             try {
-              const response = await axios.delete(
-                'http://10.0.2.2:8000/api/users',
-                {
-                  headers: {
-                    Authorization: 'Bearer YOUR_AUTH_TOKEN',
-                  },
+              const response = await axios.delete(`${API_URL}/api/users`, {
+                headers: {
+                  Authorization: 'Bearer YOUR_AUTH_TOKEN',
                 },
-              );
+              });
               console.log('계정이 성공적으로 삭제되었습니다.');
               navigation.navigate('Splash');
             } catch (error) {

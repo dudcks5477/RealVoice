@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/UserContext';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -24,6 +25,7 @@ const getRandomImage = () => {
 
 const RecordScreen = () => {
   const navigation = useNavigation();
+  const {userData} = useContext(UserContext);
   const [randomImage, setRandomImage] = useState(getRandomImage());
 
   const handleMain = () => {

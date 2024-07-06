@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-
+import {UserContext} from '../contexts/UserContext';
+import {API_URL} from '@env';
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
 import profileScreenStyle from '../styles/profileScreenStyle';
@@ -15,6 +16,7 @@ import requiredScreenStyle from '../styles/requiredScreenStyle';
 
 const BlockedScreen = () => {
   const navigation = useNavigation();
+  const {userData} = useContext(UserContext);
 
   const [searchResults, setSearchResults] = useState([
     {id: 1, name: 'Captain America', username: 'Steve Rogers'},
@@ -34,7 +36,7 @@ const BlockedScreen = () => {
 
   const handleAddFriend = async friendId => {
     try {
-      // const response = await axios.post('/api/friends/add', {
+      // const response = await axios.post(`${API_URL}/api/friends/add`, {
       //   userId: userName,
       //   friendId: friendId,
       // });

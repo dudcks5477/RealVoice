@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/UserContext';
 
 import Common from '../styles/common';
 import mainScreenStyle from '../styles/mainScreenStyle';
@@ -13,6 +14,7 @@ import {countryToRegionMap} from '../utils/countryToRegionMap';
 
 const WorldTimeScreen = ({route}) => {
   const navigation = useNavigation();
+  const {userData} = useContext(UserContext);
   const [selectedTimeZone, setSelectedTimeZone] = useState(null);
   const [isSaveButtonEnabled, setIsSaveButtonEnabled] = useState(false);
 

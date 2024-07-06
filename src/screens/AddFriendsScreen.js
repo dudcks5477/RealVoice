@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import Contacts from 'react-native-contacts';
 import Common from '../styles/common';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-
+import {API_URL} from '@env';
 import addFriendsScreenStyle from '../styles/AddFriendsScreenStyle';
 
 import Header from '../components/Header';
@@ -13,12 +13,11 @@ import ShareInvite from '../components/ShareInvite';
 import FriendItem from '../components/FriendItem';
 import InviteItem from '../components/InviteItem';
 import Footer from '../components/Footer';
-
-import {useUser} from '../contexts/UserContext';
+import {UserContext} from '../contexts/UserContext';
 
 const AddFriendsScreen = () => {
+  const {userData} = useContext(UserContext);
   const navigation = useNavigation();
-  const {userData} = useUser();
   const userName = userData.nickName || 'RealVoice';
   const firstLetter = userName.charAt(0).toUpperCase();
   const [searchQuery, setSearchQuery] = useState('');
@@ -76,13 +75,10 @@ const AddFriendsScreen = () => {
 
   const handleAddFriend = async friendId => {
     try {
-      const response = await axios.post(
-        'http://10.0.2.2:8080/friends/addUser',
-        {
-          requestUuid: userData.userUuid,
-          targetUuid: friendId,
-        },
-      );
+      const response = await axios.post(`${API_URL}/friends/addUser`, {
+        requestUuid: userData.userUuid,
+        targetUuid: friendId,
+      });
       if (response.status === 200) {
         console.log(`Added friend with id ${friendId}`);
       } else {
@@ -95,7 +91,7 @@ const AddFriendsScreen = () => {
 
   const handleDeleteFriend = async friendId => {
     try {
-      const response = await axios.post('http://10.0.2.2:8080/friends/remove', {
+      const response = await axios.post(`${API_URL}/friends/remove`, {
         userUuid: userData.userUuid,
         friendId: friendId,
       });
@@ -117,7 +113,7 @@ const AddFriendsScreen = () => {
 
   const handleSearchFriends = async () => {
     try {
-      const response = await axios.get('http://10.0.2.2:8080/friends/search', {
+      const response = await axios.get(`${API_URL}/friends/search`, {
         params: {query: searchQuery},
       });
       if (response.status === 200) {
