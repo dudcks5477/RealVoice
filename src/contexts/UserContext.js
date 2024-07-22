@@ -14,7 +14,8 @@ export const UserProvider = ({children}) => {
     nickName: '',
     realName: '',
     bio: '',
-    location: '',
+    countryName: 'KOREA',
+    joinYear: '2024',
   });
 
   const setUser = newUserData => {
