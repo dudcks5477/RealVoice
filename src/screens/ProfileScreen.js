@@ -75,7 +75,7 @@ const ProfileScreen = () => {
         nickname={userData.nickName}
       />
       <UserNameShare nickname={userData.nickName} />
-      <IntroSection country={userData.country} joinYear={joinYear} />
+      <IntroSection country={userData.countryName} joinYear={joinYear} />
       <UserMemorizeSection
         isPlaying={isPlaying}
         togglePlayPause={togglePlayPause}
