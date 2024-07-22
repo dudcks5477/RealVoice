@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   PermissionsAndroid,
   Platform,
+  Alert,
+  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -19,7 +21,9 @@ const VoicePermissionScreen = () => {
   const {userData} = useContext(UserContext);
 
   const handleAllow = async () => {
-    if (Platform.OS === 'android' && Platform.Version >= 13) {
+    setIsAllowPressed(true);
+
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
@@ -30,13 +34,24 @@ const VoicePermissionScreen = () => {
             buttonNegative: '허용하지 않기',
           },
         );
+
+        console.log('권한 요청 결과:', granted);
+
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('알림 권한이 거부되었습니다.');
-        } else {
           console.log('알림 권한이 허용되었습니다.');
+        } else {
+          console.log('알림 권한이 거부되었습니다.');
+          Alert.alert(
+            '알림 권한 거부됨',
+            '알림 권한이 거부되었습니다. 설정에서 알림 권한을 활성화해야 RealVoice의 모든 기능을 사용할 수 있습니다.',
+            [
+              {text: '취소', style: 'cancel'},
+              {text: '설정으로 이동', onPress: () => Linking.openSettings()},
+            ],
+          );
         }
       } catch (err) {
-        console.warn(err);
+        console.warn('권한 요청 중 에러 발생:', err);
       }
     }
     try {
@@ -45,6 +60,10 @@ const VoicePermissionScreen = () => {
         callingCode: userData.callingCode,
         phoneNumber: userData.phoneNumber,
         nickName: userData.nickName,
+        realName: userData.realName,
+        countryName: userData.countryName,
+        bio: userData.bio,
+        joinYear: userData.joinYear,
       });
       console.log('유저 데이터가 성공적으로 저장되었습니다.:', response.data);
       navigation.navigate('Main');
@@ -53,12 +72,14 @@ const VoicePermissionScreen = () => {
         `유저 데이터 저장 중 에러 발생 (URL: ${API_URL}/user/voice/register):`,
         error,
       );
+    } finally {
+      setIsAllowPressed(false);
     }
   };
 
   const handleDeny = () => {
     console.log('허용하지 않기 버튼을 눌렀습니다.');
-    navigation.navigate('Main');
+    Alert.alert('사용하지 않기 버튼을 누르면 RealVoice를 이용할 수 없습니다.');
   };
 
   const allowButtonStyle = isAllowPressed ? {backgroundColor: '#2a55ee'} : null;
