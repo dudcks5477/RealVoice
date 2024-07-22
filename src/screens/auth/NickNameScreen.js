@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
+import {API_URL} from '@env';
 import Common from '../../styles/common';
 import nickNameScreenStyle from '../../styles/nickNameScreenStyle';
 
@@ -23,7 +24,7 @@ const NickNameScreen = ({userData, setUserData}) => {
         setIsChecking(true);
         // try {
         //   const response = await axios.post(
-        //     'http://10.0.2.2:8080/user/voice/register',
+        //     `${API_URL}/user/voice/register`,
         //     {nickName: text},
         //   );
         //   setIsDuplicate(response.date.isDuplicate);
