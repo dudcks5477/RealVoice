@@ -10,6 +10,7 @@ import signUpPhoneNumberScreenStyle from '../../styles/signUpPhoneNumberScreenSt
 const SignUpPhoneNumberScreen = ({userData, setUserData}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryCode, setCountryCode] = useState('KR');
+  const [countryName, setCountryName] = useState('KOREA');
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const navigation = useNavigation();
 
@@ -25,11 +26,15 @@ const SignUpPhoneNumberScreen = ({userData, setUserData}) => {
   };
 
   const handleCountrySelect = country => {
+    const callingCode = `+${country.callingCode[0]}`;
+    const name = country.name;
     setUserData(prevState => ({
       ...prevState,
-      callingCode: `+${country.callingCode[0]}`,
+      callingCode,
+      countryName: name,
     }));
     setCountryCode(country.cca2);
+    setCountryName(name);
   };
 
   const handleSignUp = async () => {
@@ -37,25 +42,26 @@ const SignUpPhoneNumberScreen = ({userData, setUserData}) => {
       Alert.alert('전화번호를 입력하세요.');
       return;
     }
-    try {
-      const response = await axios.post(`${API_URL}/user/voice/register`, {
-        userUuid: userData.userUuid,
-        callingCode: userData.callingCode,
-        phoneNumber: userData.phoneNumber,
-        nickName: userData.nickName,
-      });
-      console.log('Server response:', response);
-      if (response.status === 200 || response.status === 201) {
-        navigation.navigate('PhoneVerification');
-      }
-    } catch (error) {
-      console.error('Erroor response:', error.response);
-      if (error.response && error.response.status === 400) {
-        Alert.alert('이미 등록된 전화번호입니다.');
-      } else {
-        console.error('전화번호 등록 중 에러 발생:', error);
-      }
-    }
+    // try {
+    //   const response = await axios.post(`${API_URL}/user/voice/register`, {
+    //     userUuid: userData.userUuid,
+    //     callingCode: userData.callingCode,
+    //     phoneNumber: userData.phoneNumber,
+    //     nickName: userData.nickName,
+    //   });
+    //   console.log('Server response:', response);
+    //   if (response.status === 200 || response.status === 201) {
+    //     navigation.navigate('PhoneVerification');
+    //   }
+    // } catch (error) {
+    //   console.error('Erroor response:', error.response);
+    //   if (error.response && error.response.status === 400) {
+    //     Alert.alert('이미 등록된 전화번호입니다.');
+    //   } else {
+    //     console.error('전화번호 등록 중 에러 발생:', error);
+    //   }
+    // }
+    navigation.navigate('PhoneVerification');
   };
 
   return (
