@@ -24,8 +24,8 @@ const getRandomImage = () => {
 };
 
 const MainScreen = () => {
-  const {userData} = useContext(UserContext);
-  const [userName, setUserName] = useState('realvoice');
+  const {userData, setUserData} = useContext(UserContext);
+  const [userName, setUserName] = useState(userData.nickName || 'realVoice');
   const [randomImage, setRandomImage] = useState(getRandomImage());
   const navigation = useNavigation();
 
@@ -34,8 +34,15 @@ const MainScreen = () => {
       try {
         const response = await axios.get(`${API_URL}/user/profile/${uuid}`);
         console.log('User info fetched successfully:', response.data);
+
+        console.log('API 응답 데이터:', response.data);
+
         if (response.data && response.data.nickName) {
           setUserName(response.data.nickName);
+          setUserData(prevData => ({
+            ...prevData,
+            nickName: response.data.nickName,
+          }));
         } else {
           console.warn('No nickName found in response:', response.data);
         }
@@ -49,7 +56,7 @@ const MainScreen = () => {
     if (userData.phoneNumber) {
       fetchUserInfo(userData.phoneNumber);
     }
-  }, [userData.phoneNumber]);
+  }, [userData.phoneNumber, setUserData]);
 
   const firstLetter = userName ? userName.charAt(0).toUpperCase() : '';
 
